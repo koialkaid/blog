@@ -1,0 +1,65 @@
+{{ define "main" }}
+  {{ $allPages := .Site.RegularPages.ByDate.Reverse }}
+  {{ $recentPosts := where $allPages "Section" "posts" }}
+  {{ $recentNotes := where $allPages "Section" "notes" }}
+  <section class="home-hero">
+    <div class="hero-layout">
+      <div>
+        <p class="eyebrow">Public Writing</p>
+        <h1>{{ .Site.Params.homeIntro }}</h1>
+        <p class="lead">{{ .Site.Params.homeBlurb }}</p>
+        {{ with .Content }}
+          <div class="rich-text" style="margin-top: 1.25rem;">{{ . }}</div>
+        {{ end }}
+      </div>
+      <div class="hero-stat">
+        <div class="stat-card">
+          <strong>{{ len $recentPosts }} 篇文章</strong>
+          <p>放正式写作、阶段总结和完整内容。</p>
+        </div>
+        <div class="stat-card">
+          <strong>{{ len $recentNotes }} 条短记</strong>
+          <p>放轻量更新、碎片记录和小结。</p>
+        </div>
+        <div class="stat-card">
+          <strong>默认公开</strong>
+          <p>这个博客只收录适合公开发布的内容。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Latest Posts</p>
+        <h2>最近文章</h2>
+      </div>
+      <p><a href="{{ "/posts/" | relLangURL }}">查看全部文章</a></p>
+    </div>
+    <div class="card-grid">
+      {{ range first 3 $recentPosts }}
+        {{ partial "post-card.html" . }}
+      {{ else }}
+        <div class="empty-state">这里还没有正式文章。</div>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Latest Notes</p>
+        <h2>最近短记</h2>
+      </div>
+      <p><a href="{{ "/notes/" | relLangURL }}">查看全部短记</a></p>
+    </div>
+    <div class="card-grid">
+      {{ range first 3 $recentNotes }}
+        {{ partial "post-card.html" . }}
+      {{ else }}
+        <div class="empty-state">这里还没有短记录。</div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

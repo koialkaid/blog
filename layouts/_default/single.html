@@ -1,0 +1,32 @@
+{{ define "main" }}
+  <article class="article">
+    <header>
+      {{ if eq .Section "notes" }}
+        <p class="eyebrow">Note</p>
+      {{ else if eq .Section "posts" }}
+        <p class="eyebrow">Post</p>
+      {{ else }}
+        <p class="eyebrow">Page</p>
+      {{ end }}
+      <h1>{{ .Title }}</h1>
+      <div class="article-meta" style="margin-top: 0.9rem;">
+        {{ with .Date }}<span>{{ .Format "2006-01-02" }}</span>{{ end }}
+        {{ if .ReadingTime }}<span>{{ .ReadingTime }} 分钟阅读</span>{{ end }}
+        {{ with .Params.tags }}<span>{{ len . }} 个标签</span>{{ end }}
+      </div>
+      {{ with .Description }}
+        <p class="lead" style="margin-top: 1rem;">{{ . }}</p>
+      {{ end }}
+      {{ with .Params.tags }}
+        <ul class="tag-list">
+          {{ range . }}
+            <li><a class="tag-pill" href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}">#{{ . }}</a></li>
+          {{ end }}
+        </ul>
+      {{ end }}
+    </header>
+    <div class="rich-text">
+      {{ .Content }}
+    </div>
+  </article>
+{{ end }}

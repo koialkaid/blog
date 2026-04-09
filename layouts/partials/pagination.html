@@ -1,0 +1,11 @@
+{{- $paginator := . -}}
+{{- if gt $paginator.TotalPages 1 -}}
+  <nav class="pagination" aria-label="分页导航">
+    {{ if $paginator.HasPrev }}
+      <a href="{{ $paginator.Prev.URL }}">上一页</a>
+    {{ end }}
+    {{ if $paginator.HasNext }}
+      <a href="{{ $paginator.Next.URL }}">下一页</a>
+    {{ end }}
+  </nav>
+{{- end -}}

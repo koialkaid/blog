@@ -1,0 +1,41 @@
+{{ define "main" }}
+  {{ $pages := .RegularPagesRecursive }}
+  {{ if eq .Kind "taxonomy" }}
+    {{ $pages = .Pages }}
+  {{ end }}
+  {{ $sortedPages := $pages.ByDate.Reverse }}
+  {{ $paginator := .Paginate $sortedPages }}
+
+  <section class="page-hero">
+    {{ if eq .Kind "taxonomy" }}
+      <p class="eyebrow">Tag</p>
+    {{ else if eq .Section "notes" }}
+      <p class="eyebrow">Notes</p>
+    {{ else if eq .Section "posts" }}
+      <p class="eyebrow">Posts</p>
+    {{ else }}
+      <p class="eyebrow">Archive</p>
+    {{ end }}
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}
+      <p class="lead">{{ . }}</p>
+    {{ else }}
+      {{ if .Content }}
+        <div class="rich-text" style="margin-top: 1rem;">{{ .Content }}</div>
+      {{ else if eq .Kind "taxonomy" }}
+        <p class="lead">查看与 “{{ .Title }}” 相关的公开内容。</p>
+      {{ end }}
+    {{ end }}
+  </section>
+
+  <section class="section-block">
+    <div class="card-grid">
+      {{ range $paginator.Pages }}
+        {{ partial "post-card.html" . }}
+      {{ else }}
+        <div class="empty-state">这里暂时还没有内容。</div>
+      {{ end }}
+    </div>
+    {{ partial "pagination.html" $paginator }}
+  </section>
+{{ end }}

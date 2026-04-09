@@ -1,0 +1,61 @@
+# 本地默认值；GitHub Pages 发布时由 workflow 注入真实 baseURL。
+baseURL = 'https://example.org/'
+languageCode = 'zh-cn'
+defaultContentLanguage = 'zh-cn'
+title = "LY's Blog"
+timezone = 'Asia/Shanghai'
+enableRobotsTXT = true
+summaryLength = 120
+
+[pagination]
+pagerSize = 8
+
+[taxonomies]
+tag = 'tags'
+
+[outputs]
+home = ['HTML', 'RSS']
+section = ['HTML', 'RSS']
+taxonomy = ['HTML', 'RSS']
+term = ['HTML']
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+    unsafe = false
+
+[params]
+description = '一个纯公开、低维护、可长期书写的个人博客。'
+author = 'LY'
+homeIntro = '公开写作、短记录与日常思考'
+homeBlurb = '这是一份轻量、长期可维护的个人博客。内容默认全部公开，重点放在持续写作，而不是堆叠功能。'
+
+[[menu.main]]
+name = '首页'
+pageRef = '/'
+weight = 10
+
+[[menu.main]]
+name = '文章'
+pageRef = '/posts'
+weight = 20
+
+[[menu.main]]
+name = '短记'
+pageRef = '/notes'
+weight = 30
+
+[[menu.main]]
+name = '标签'
+url = '/tags/'
+weight = 40
+
+[[menu.main]]
+name = 'About'
+pageRef = '/about'
+weight = 50
+
+[[menu.main]]
+name = 'RSS'
+url = '/index.xml'
+weight = 60

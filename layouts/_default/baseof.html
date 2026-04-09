@@ -1,0 +1,13 @@
+{{ partial "head.html" . }}
+<body>
+  <div class="site-shell">
+    {{ partial "header.html" . }}
+    <main class="site-main">
+      <div class="wrap">
+        {{ block "main" . }}{{ end }}
+      </div>
+    </main>
+    {{ partial "footer.html" . }}
+  </div>
+</body>
+</html>
