@@ -17,13 +17,16 @@
       <p class="section-kicker">Archive</p>
     {{ end }}
     <h1>{{ .Title }}</h1>
-    {{ with .Description }}
-      <p class="lede">{{ . }}</p>
-    {{ else }}
-      {{ if .Content }}
-        <div class="article-body" style="padding-top: 0;">{{ .Content }}</div>
-      {{ else if eq .Kind "taxonomy" }}
-        <p class="lede">查看与 “{{ .Title }}” 相关的公开内容。</p>
+    {{ $hideSectionIntro := and (eq .Kind "section") (or (eq .Section "posts") (eq .Section "notes")) }}
+    {{ if not $hideSectionIntro }}
+      {{ with .Description }}
+        <p class="lede">{{ . }}</p>
+      {{ else }}
+        {{ if .Content }}
+          <div class="article-body" style="padding-top: 0;">{{ .Content }}</div>
+        {{ else if eq .Kind "taxonomy" }}
+          <p class="lede">查看与 “{{ .Title }}” 相关的公开内容。</p>
+        {{ end }}
       {{ end }}
     {{ end }}
   </section>

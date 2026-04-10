@@ -19,7 +19,24 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 $homeHtml = Get-Content -Path (Join-Path $outputDir 'index.html') -Raw
+$postsHtml = Get-Content -Path (Join-Path $outputDir 'posts\index.html') -Raw
+$notesHtml = Get-Content -Path (Join-Path $outputDir 'notes\index.html') -Raw
+$tagsHtml = Get-Content -Path (Join-Path $outputDir 'tags\index.html') -Raw
+$aboutHtml = Get-Content -Path (Join-Path $outputDir 'about\index.html') -Raw
 $postHtml = Get-Content -Path (Join-Path $outputDir 'posts\welcome-to-my-blog\index.html') -Raw
+$tagDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'tags') -Directory |
+  Where-Object { $_.Name -notin @('page') } |
+  Select-Object -First 1
+$tagDetailHtml = if ($tagDetailFile) {
+  Get-Content -Path (Join-Path $tagDetailFile.FullName 'index.html') -Raw
+} else {
+  ''
+}
+
+$themePages = @($homeHtml, $postsHtml, $notesHtml, $tagsHtml, $aboutHtml, $postHtml)
+if ($tagDetailHtml) {
+  $themePages += $tagDetailHtml
+}
 
 $checks = @(
   @{ Name = 'home uses card-based article layout'; Ok = $homeHtml -match 'class=reading-card' },
@@ -28,6 +45,10 @@ $checks = @(
   @{ Name = 'home no longer renders intro card'; Ok = $homeHtml -notmatch 'Writing Index' -and $homeHtml -notmatch 'class=home-intro' },
   @{ Name = 'home no longer renders writing note panel'; Ok = $homeHtml -notmatch 'Writing Note' -and $homeHtml -notmatch 'sidebar-context-panel' },
   @{ Name = 'brand block keeps only the new site title'; Ok = $homeHtml -match "Koi&#39;s Blog|Koi's Blog" -and $homeHtml -notmatch '公开写作、短记录与日常思考' },
+  @{ Name = 'posts list no longer renders visible section description'; Ok = $postsHtml -notmatch '<section class=page-header>.*?<p class=lede>' },
+  @{ Name = 'notes list no longer renders visible section description'; Ok = $notesHtml -notmatch '<section class=page-header>.*?<p class=lede>' },
+  @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
+  @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
   @{ Name = 'post page renders on-this-page panel in sidebar'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'sidebar-context-panel' },
   @{ Name = 'post page no longer renders old article toc column'; Ok = $postHtml -notmatch 'article-toc' -and $postHtml -notmatch 'article-layout' }
 )
