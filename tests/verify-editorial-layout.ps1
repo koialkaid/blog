@@ -38,6 +38,20 @@ if ($tagDetailHtml) {
   $themePages += $tagDetailHtml
 }
 
+$aboutCountMatch = [regex]::Match($aboutHtml, 'article-meta><span>([0-9,]+) 字</span>')
+$aboutCount = if ($aboutCountMatch.Success) {
+  [int](($aboutCountMatch.Groups[1].Value) -replace ',', '')
+} else {
+  0
+}
+
+$postCountMatch = [regex]::Match($postHtml, 'article-meta><span>[^<]+</span>\s*<span>([0-9,]+) 字</span>')
+$postCount = if ($postCountMatch.Success) {
+  [int](($postCountMatch.Groups[1].Value) -replace ',', '')
+} else {
+  0
+}
+
 $checks = @(
   @{ Name = 'home uses card-based article layout'; Ok = $homeHtml -match 'class=reading-card' },
   @{ Name = 'home exposes explicit read-more action'; Ok = $homeHtml -match 'class=reading-action' },
@@ -48,9 +62,10 @@ $checks = @(
   @{ Name = 'posts list no longer renders visible section description'; Ok = $postsHtml -notmatch '<section class=page-header>.*?<p class=lede>' },
   @{ Name = 'notes list no longer renders visible section description'; Ok = $notesHtml -notmatch '<section class=page-header>.*?<p class=lede>' },
   @{ Name = 'tags page no longer renders visible description'; Ok = $tagsHtml -notmatch '<section class=page-header>.*?<p class=lede>' },
-  @{ Name = 'listing cards no longer show content type labels'; Ok = $homeHtml -notmatch '<div class=writing-meta><span>[^<]+</span><span>(文章|短记录)</span>' -and $postsHtml -notmatch '<div class=writing-meta><span>[^<]+</span><span>(文章|短记录)</span>' -and $notesHtml -notmatch '<div class=writing-meta><span>[^<]+</span><span>(文章|短记录)</span>' },
+  @{ Name = 'listing cards only keep date in meta'; Ok = $homeHtml -match '<div class=writing-meta><span>[^<]+</span></div>' -and $postsHtml -match '<div class=writing-meta><span>[^<]+</span></div>' -and $notesHtml -match '<div class=writing-meta><span>[^<]+</span></div>' },
   @{ Name = 'listing cards no longer show feature or note badges'; Ok = $homeHtml -notmatch 'class=reading-label' -and $postsHtml -notmatch 'class=reading-label' -and $notesHtml -notmatch 'class=reading-label' },
-  @{ Name = 'visible reading time replaced with word count'; Ok = ($themePages | Where-Object { $_ -notmatch '分钟阅读' }).Count -eq $themePages.Count -and $homeHtml -match '[0-9,]+ 字' -and $aboutHtml -match '[0-9,]+ 字' -and $postHtml -match '[0-9,]+ 字' },
+  @{ Name = 'visible reading time removed from cards and pages'; Ok = ($themePages | Where-Object { $_ -notmatch '分钟阅读' }).Count -eq $themePages.Count },
+  @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and $postCount -gt 100 },
   @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
   @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
   @{ Name = 'post page renders on-this-page panel in sidebar'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'sidebar-context-panel' },

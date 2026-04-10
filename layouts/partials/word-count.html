@@ -1,1 +1,3 @@
-{{- printf "%s 字" (lang.FormatNumber 0 .WordCount) -}}
+{{- $plain := .Plain | replaceRE "\\s+" "" -}}
+{{- $chars := len (findRE `(?s).` $plain) -}}
+{{- printf "%s 字" (lang.FormatNumber 0 $chars) -}}
