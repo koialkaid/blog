@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-label="黑白写作场景插图">
+  <rect width="1200" height="720" fill="#f3f3f3"/>
+  <rect x="118" y="96" width="964" height="528" fill="#ffffff" stroke="#111111" stroke-width="12"/>
+  <line x1="196" y1="204" x2="1004" y2="204" stroke="#1b1b1b" stroke-width="8"/>
+  <line x1="196" y1="286" x2="1004" y2="286" stroke="#585858" stroke-width="6"/>
+  <line x1="196" y1="352" x2="944" y2="352" stroke="#585858" stroke-width="6"/>
+  <line x1="196" y1="418" x2="980" y2="418" stroke="#585858" stroke-width="6"/>
+  <line x1="196" y1="484" x2="918" y2="484" stroke="#585858" stroke-width="6"/>
+  <rect x="796" y="522" width="184" height="34" fill="#111111"/>
+  <path d="M164 602l94-264 40 14-94 264z" fill="#111111"/>
+  <path d="M212 320l39 14-28 80-40-14z" fill="#ffffff"/>
+</svg>
