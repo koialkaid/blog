@@ -2,17 +2,6 @@
   {{ $allPages := .Site.RegularPages.ByDate.Reverse }}
   {{ $recentPosts := where $allPages "Section" "posts" }}
   {{ $recentNotes := where $allPages "Section" "notes" }}
-  <section class="home-intro">
-    <p class="section-kicker">Writing Index</p>
-    <h1>{{ .Site.Params.homeIntro }}</h1>
-    <div class="intro-copy">
-      <p>{{ .Site.Params.homeBlurb }}</p>
-      {{ with .Content }}
-        <div class="article-body" style="padding-top: 0;">{{ . }}</div>
-      {{ end }}
-    </div>
-  </section>
-
   <section class="writing-section">
     <div class="section-heading">
       <div>
@@ -46,6 +35,4 @@
       {{ end }}
     </div>
   </section>
-
-  <p class="page-footer-note">这个首页刻意保持简单，只把最近写作清楚地放出来。</p>
 {{ end }}

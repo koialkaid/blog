@@ -2,7 +2,7 @@
 baseURL = 'https://example.org/'
 languageCode = 'zh-cn'
 defaultContentLanguage = 'zh-cn'
-title = "LY's Blog"
+title = "Koi's Blog"
 timezone = 'Asia/Shanghai'
 enableRobotsTXT = true
 summaryLength = 120
