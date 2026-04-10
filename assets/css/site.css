@@ -490,14 +490,18 @@ h3 {
 }
 
 .article-toc-aside {
+  position: sticky;
+  top: 2rem;
   align-self: start;
 }
 
 .article-toc-card {
   max-width: 14rem;
+  max-height: calc(100vh - 4rem);
   padding: 0.9rem 0.95rem 0.95rem;
   border: 1px solid var(--line);
   background: var(--panel-bg);
+  overflow: auto;
 }
 
 .article-toc-content nav ul {
@@ -679,8 +683,14 @@ h3 {
     gap: 1rem;
   }
 
+  .article-toc-aside {
+    position: static;
+  }
+
   .article-toc-card {
     max-width: none;
+    max-height: none;
+    overflow: visible;
   }
 
   .writing-title {

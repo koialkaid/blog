@@ -24,6 +24,8 @@ $notesHtml = Get-Content -Path (Join-Path $outputDir 'notes\index.html') -Raw
 $tagsHtml = Get-Content -Path (Join-Path $outputDir 'tags\index.html') -Raw
 $aboutHtml = Get-Content -Path (Join-Path $outputDir 'about\index.html') -Raw
 $postHtml = Get-Content -Path (Join-Path $outputDir 'posts\welcome-to-my-blog\index.html') -Raw
+$cssFile = Get-ChildItem -Path (Join-Path $outputDir 'css') -Filter 'site*.css' | Select-Object -First 1
+$cssText = if ($cssFile) { Get-Content -Path $cssFile.FullName -Raw } else { '' }
 $tagDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'tags') -Directory |
   Where-Object { $_.Name -notin @('page') } |
   Select-Object -First 1
@@ -71,7 +73,9 @@ $checks = @(
   @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'article-toc-aside' -and $postHtml -match 'article-toc-card' },
   @{ Name = 'post page toc is not rendered in sidebar'; Ok = $postHtml -notmatch 'sidebar-context-panel' },
   @{ Name = 'post page toc is not rendered before body inside main flow'; Ok = $postHtml -notmatch 'article-toc-block' },
-  @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -match 'article-page-shell' }
+  @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -match 'article-page-shell' },
+  @{ Name = 'toc aside uses sticky positioning'; Ok = $cssText -match '\.article-toc-aside\{[^}]*position:sticky[^}]*top:2rem' },
+  @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-toc-card\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' }
 )
 
 $failed = $checks | Where-Object { -not $_.Ok }
