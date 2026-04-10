@@ -68,9 +68,10 @@ $checks = @(
   @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and $postCount -gt 100 },
   @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
   @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
-  @{ Name = 'post page renders on-this-page block inside article content'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'article-toc-block' },
+  @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'article-toc-aside' -and $postHtml -match 'article-toc-card' },
   @{ Name = 'post page toc is not rendered in sidebar'; Ok = $postHtml -notmatch 'sidebar-context-panel' },
-  @{ Name = 'post page no longer renders old article toc column'; Ok = $postHtml -notmatch 'article-layout' -and $postHtml -notmatch 'class=article-toc(?:\\s|")' }
+  @{ Name = 'post page toc is not rendered before body inside main flow'; Ok = $postHtml -notmatch 'article-toc-block' },
+  @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -match 'article-page-shell' }
 )
 
 $failed = $checks | Where-Object { -not $_.Ok }

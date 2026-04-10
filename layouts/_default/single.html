@@ -7,45 +7,49 @@
     {{ else if eq .Section "notes" }}
       <a class="back-link" href="{{ "notes/" | relLangURL }}">← 返回短记列表</a>
     {{ end }}
-    <div class="article-main">
-      <header class="article-header">
-        {{ if eq .Section "notes" }}
-          <p class="section-kicker">Note</p>
-        {{ else if eq .Section "posts" }}
-          <p class="section-kicker">Post</p>
-        {{ else }}
-          <p class="section-kicker">Page</p>
-        {{ end }}
-        <h1>{{ .Title }}</h1>
-        <div class="article-meta">
-          {{ with .Date }}<span>{{ .Format "2006-01-02" }}</span>{{ end }}
-          <span>{{ partial "word-count.html" . }}</span>
-          {{ with .Params.tags }}<span>{{ len . }} 个标签</span>{{ end }}
-        </div>
-        {{ with .Description }}
-          <div class="article-summary">
-            <p>{{ . }}</p>
+    <div class="article-page-shell{{ if not (gt (len $tocText) 0) }} no-toc{{ end }}">
+      <div class="article-main">
+        <header class="article-header">
+          {{ if eq .Section "notes" }}
+            <p class="section-kicker">Note</p>
+          {{ else if eq .Section "posts" }}
+            <p class="section-kicker">Post</p>
+          {{ else }}
+            <p class="section-kicker">Page</p>
+          {{ end }}
+          <h1>{{ .Title }}</h1>
+          <div class="article-meta">
+            {{ with .Date }}<span>{{ .Format "2006-01-02" }}</span>{{ end }}
+            <span>{{ partial "word-count.html" . }}</span>
+            {{ with .Params.tags }}<span>{{ len . }} 个标签</span>{{ end }}
           </div>
-        {{ end }}
-        {{ with .Params.tags }}
-          <ul class="tag-list">
-            {{ range . }}
-              <li><a class="tag-pill" href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}">#{{ . }}</a></li>
-            {{ end }}
-          </ul>
-        {{ end }}
-      </header>
-      {{ if gt (len $tocText) 0 }}
-        <div class="article-toc-block">
-          <p class="section-kicker">On This Page</p>
-          <div class="article-toc-content">
-            {{ $toc }}
-          </div>
+          {{ with .Description }}
+            <div class="article-summary">
+              <p>{{ . }}</p>
+            </div>
+          {{ end }}
+          {{ with .Params.tags }}
+            <ul class="tag-list">
+              {{ range . }}
+                <li><a class="tag-pill" href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}">#{{ . }}</a></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+        </header>
+        <div class="article-body">
+          {{ .Content }}
         </div>
-      {{ end }}
-      <div class="article-body">
-        {{ .Content }}
       </div>
+      {{ if gt (len $tocText) 0 }}
+        <aside class="article-toc-aside" aria-label="文章目录">
+          <div class="article-toc-card">
+            <p class="section-kicker">On This Page</p>
+            <div class="article-toc-content">
+              {{ $toc }}
+            </div>
+          </div>
+        </aside>
+      {{ end }}
     </div>
   </article>
 {{ end }}

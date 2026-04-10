@@ -455,6 +455,17 @@ h3 {
   padding-top: 0.3rem;
 }
 
+.article-page-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 46rem) minmax(12rem, 14rem);
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.article-page-shell.no-toc {
+  grid-template-columns: minmax(0, 46rem);
+}
+
 .back-link {
   display: inline-flex;
   margin-bottom: 1rem;
@@ -478,9 +489,13 @@ h3 {
   max-width: 46rem;
 }
 
-.article-toc-block {
-  margin-top: 1.2rem;
-  padding: 0.95rem 1rem 1rem;
+.article-toc-aside {
+  align-self: start;
+}
+
+.article-toc-card {
+  max-width: 14rem;
+  padding: 0.9rem 0.95rem 0.95rem;
   border: 1px solid var(--line);
   background: var(--panel-bg);
 }
@@ -656,6 +671,16 @@ h3 {
   .reading-card-footer {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .article-page-shell,
+  .article-page-shell.no-toc {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .article-toc-card {
+    max-width: none;
   }
 
   .writing-title {
