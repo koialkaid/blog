@@ -1,39 +1,58 @@
 {{ define "main" }}
+  {{ $toc := .TableOfContents }}
+  {{ $tocText := $toc | plainify | trim " \n\r\t" }}
+  {{ $showToc := or (gt (len $tocText) 0) (eq .Section "posts") }}
   <article class="article-page">
     {{ if eq .Section "posts" }}
       <a class="back-link" href="{{ "posts/" | relLangURL }}">← 返回文章列表</a>
     {{ else if eq .Section "notes" }}
       <a class="back-link" href="{{ "notes/" | relLangURL }}">← 返回短记列表</a>
     {{ end }}
-    <header class="article-header">
-      {{ if eq .Section "notes" }}
-        <p class="section-kicker">Note</p>
-      {{ else if eq .Section "posts" }}
-        <p class="section-kicker">Post</p>
-      {{ else }}
-        <p class="section-kicker">Page</p>
+    <div class="article-layout{{ if not $showToc }} no-toc{{ end }}">
+      {{ if $showToc }}
+        <aside class="article-toc">
+          <div class="article-toc-card">
+            <p class="section-kicker">On This Page</p>
+            {{ if gt (len $tocText) 0 }}
+              {{ $toc }}
+            {{ else }}
+              <p class="toc-empty">文章出现分节标题后，这里会自动生成目录。</p>
+            {{ end }}
+          </div>
+        </aside>
       {{ end }}
-      <h1>{{ .Title }}</h1>
-      <div class="article-meta">
-        {{ with .Date }}<span>{{ .Format "2006-01-02" }}</span>{{ end }}
-        {{ if .ReadingTime }}<span>{{ .ReadingTime }} 分钟阅读</span>{{ end }}
-        {{ with .Params.tags }}<span>{{ len . }} 个标签</span>{{ end }}
-      </div>
-      {{ with .Description }}
-        <div class="article-summary">
-          <p>{{ . }}</p>
-        </div>
-      {{ end }}
-      {{ with .Params.tags }}
-        <ul class="tag-list">
-          {{ range . }}
-            <li><a class="tag-pill" href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}">#{{ . }}</a></li>
+      <div class="article-main">
+        <header class="article-header">
+          {{ if eq .Section "notes" }}
+            <p class="section-kicker">Note</p>
+          {{ else if eq .Section "posts" }}
+            <p class="section-kicker">Post</p>
+          {{ else }}
+            <p class="section-kicker">Page</p>
           {{ end }}
-        </ul>
-      {{ end }}
-    </header>
-    <div class="article-body">
-      {{ .Content }}
+          <h1>{{ .Title }}</h1>
+          <div class="article-meta">
+            {{ with .Date }}<span>{{ .Format "2006-01-02" }}</span>{{ end }}
+            {{ if .ReadingTime }}<span>{{ .ReadingTime }} 分钟阅读</span>{{ end }}
+            {{ with .Params.tags }}<span>{{ len . }} 个标签</span>{{ end }}
+          </div>
+          {{ with .Description }}
+            <div class="article-summary">
+              <p>{{ . }}</p>
+            </div>
+          {{ end }}
+          {{ with .Params.tags }}
+            <ul class="tag-list">
+              {{ range . }}
+                <li><a class="tag-pill" href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}">#{{ . }}</a></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+        </header>
+        <div class="article-body">
+          {{ .Content }}
+        </div>
+      </div>
     </div>
   </article>
 {{ end }}
