@@ -1,21 +1,28 @@
 {{ define "main" }}
-  <article class="article">
-    <header>
+  <article class="article-page">
+    {{ if eq .Section "posts" }}
+      <a class="back-link" href="{{ "/posts/" | relLangURL }}">← 返回文章列表</a>
+    {{ else if eq .Section "notes" }}
+      <a class="back-link" href="{{ "/notes/" | relLangURL }}">← 返回短记列表</a>
+    {{ end }}
+    <header class="article-header">
       {{ if eq .Section "notes" }}
-        <p class="eyebrow">Note</p>
+        <p class="section-kicker">Note</p>
       {{ else if eq .Section "posts" }}
-        <p class="eyebrow">Post</p>
+        <p class="section-kicker">Post</p>
       {{ else }}
-        <p class="eyebrow">Page</p>
+        <p class="section-kicker">Page</p>
       {{ end }}
       <h1>{{ .Title }}</h1>
-      <div class="article-meta" style="margin-top: 0.9rem;">
+      <div class="article-meta">
         {{ with .Date }}<span>{{ .Format "2006-01-02" }}</span>{{ end }}
         {{ if .ReadingTime }}<span>{{ .ReadingTime }} 分钟阅读</span>{{ end }}
         {{ with .Params.tags }}<span>{{ len . }} 个标签</span>{{ end }}
       </div>
       {{ with .Description }}
-        <p class="lead" style="margin-top: 1rem;">{{ . }}</p>
+        <div class="article-summary">
+          <p>{{ . }}</p>
+        </div>
       {{ end }}
       {{ with .Params.tags }}
         <ul class="tag-list">
@@ -25,7 +32,7 @@
         </ul>
       {{ end }}
     </header>
-    <div class="rich-text">
+    <div class="article-body">
       {{ .Content }}
     </div>
   </article>

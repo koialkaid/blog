@@ -1,24 +1,20 @@
 {{ define "main" }}
-  <section class="page-hero">
-    <p class="eyebrow">Browse Tags</p>
+  <section class="page-header">
+    <p class="section-kicker">Browse Tags</p>
     <h1>{{ .Title }}</h1>
-    <p class="lead">按主题浏览公开文章和短记。</p>
+    <p class="lede">按主题浏览公开文章和短记。</p>
   </section>
 
-  <section class="section-block tag-cloud">
-    <div class="panel">
-      <ul class="tag-cloud-list">
-        {{ range .Data.Terms.Alphabetical }}
-          <li>
-            <a class="tag-pill" href="{{ .Page.RelPermalink }}">
-              #{{ .Page.Title }}
-              <span>{{ .Count }}</span>
-            </a>
-          </li>
-        {{ else }}
-          <li class="empty-state" style="width: 100%;">还没有标签。</li>
-        {{ end }}
-      </ul>
-    </div>
+  <section class="taxonomy-section">
+    {{ range .Data.Terms.Alphabetical }}
+      <div class="taxonomy-card">
+        <a class="tag-pill" href="{{ .Page.RelPermalink }}">
+          #{{ .Page.Title }}
+          <span>{{ .Count }}</span>
+        </a>
+      </div>
+    {{ else }}
+      <div class="empty-state">还没有标签。</div>
+    {{ end }}
   </section>
 {{ end }}

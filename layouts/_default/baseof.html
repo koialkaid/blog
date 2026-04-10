@@ -1,13 +1,14 @@
 {{ partial "head.html" . }}
-<body>
-  <div class="site-shell">
-    {{ partial "header.html" . }}
-    <main class="site-main">
-      <div class="wrap">
+<body class="kind-{{ .Kind }}{{ with .Section }} section-{{ . }}{{ end }}">
+  <div class="site-frame">
+    <aside class="site-sidebar">
+      {{ partial "sidebar.html" . }}
+    </aside>
+    <main class="site-content">
+      <div class="content-shell">
         {{ block "main" . }}{{ end }}
       </div>
     </main>
-    {{ partial "footer.html" . }}
   </div>
 </body>
 </html>

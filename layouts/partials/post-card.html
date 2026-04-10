@@ -1,11 +1,11 @@
-<article class="post-card">
-  <div class="meta-line">
+<article class="writing-item">
+  <div class="writing-meta">
     <span>{{ .Date.Format "2006-01-02" }}</span>
     <span>{{ if eq .Section "notes" }}短记录{{ else if eq .Section "posts" }}文章{{ else }}页面{{ end }}</span>
     {{ if .ReadingTime }}<span>{{ .ReadingTime }} 分钟阅读</span>{{ end }}
   </div>
-  <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-  <p>{{ .Description | default (.Summary | plainify | truncate 120) }}</p>
+  <h3 class="writing-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+  <p class="writing-summary">{{ .Description | default (.Summary | plainify | truncate 120) }}</p>
   {{ with .Params.tags }}
     <ul class="tag-list">
       {{ range . }}

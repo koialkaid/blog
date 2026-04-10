@@ -1,0 +1,29 @@
+{{- $currentPage := . -}}
+<div class="sidebar-panel">
+  <div class="sidebar-top">
+    <a class="sidebar-brand" href="{{ "/" | relLangURL }}">
+      <span class="sidebar-title">{{ .Site.Title }}</span>
+      <span class="sidebar-subtitle">{{ .Site.Params.homeIntro }}</span>
+    </a>
+    <p class="sidebar-bio">{{ .Site.Params.homeBlurb }}</p>
+  </div>
+
+  <nav class="sidebar-nav" aria-label="主导航">
+    {{ range $index, $item := .Site.Menus.main }}
+      {{ $isActive := or ($currentPage.IsMenuCurrent "main" $item) ($currentPage.HasMenuCurrent "main" $item) }}
+      <a href="{{ $item.URL }}"{{ if $isActive }} class="is-active"{{ end }}>
+        <span>{{ $item.Name }}</span>
+        <span>{{ printf "%02d" (add $index 1) }}</span>
+      </a>
+    {{ end }}
+  </nav>
+
+  <div class="sidebar-meta">
+    <p class="sidebar-note">纯公开的个人写作博客。左侧保留导航和说明，右侧只负责安静地承载内容。</p>
+    <div class="sidebar-links">
+      <a href="{{ "/index.xml" | relLangURL }}">RSS</a>
+      <a href="{{ "/about/" | relLangURL }}">About</a>
+      <a href="{{ "/tags/" | relLangURL }}">标签</a>
+    </div>
+  </div>
+</div>

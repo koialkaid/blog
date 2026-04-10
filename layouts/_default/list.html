@@ -6,30 +6,30 @@
   {{ $sortedPages := $pages.ByDate.Reverse }}
   {{ $paginator := .Paginate $sortedPages }}
 
-  <section class="page-hero">
+  <section class="page-header">
     {{ if eq .Kind "taxonomy" }}
-      <p class="eyebrow">Tag</p>
+      <p class="section-kicker">Tag</p>
     {{ else if eq .Section "notes" }}
-      <p class="eyebrow">Notes</p>
+      <p class="section-kicker">Notes</p>
     {{ else if eq .Section "posts" }}
-      <p class="eyebrow">Posts</p>
+      <p class="section-kicker">Posts</p>
     {{ else }}
-      <p class="eyebrow">Archive</p>
+      <p class="section-kicker">Archive</p>
     {{ end }}
     <h1>{{ .Title }}</h1>
     {{ with .Description }}
-      <p class="lead">{{ . }}</p>
+      <p class="lede">{{ . }}</p>
     {{ else }}
       {{ if .Content }}
-        <div class="rich-text" style="margin-top: 1rem;">{{ .Content }}</div>
+        <div class="article-body" style="padding-top: 0;">{{ .Content }}</div>
       {{ else if eq .Kind "taxonomy" }}
-        <p class="lead">查看与 “{{ .Title }}” 相关的公开内容。</p>
+        <p class="lede">查看与 “{{ .Title }}” 相关的公开内容。</p>
       {{ end }}
     {{ end }}
   </section>
 
-  <section class="section-block">
-    <div class="card-grid">
+  <section class="writing-section">
+    <div class="writing-list">
       {{ range $paginator.Pages }}
         {{ partial "post-card.html" . }}
       {{ else }}
