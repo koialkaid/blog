@@ -1,9 +1,9 @@
 {{ define "main" }}
   <article class="article-page">
     {{ if eq .Section "posts" }}
-      <a class="back-link" href="{{ "/posts/" | relLangURL }}">← 返回文章列表</a>
+      <a class="back-link" href="{{ "posts/" | relLangURL }}">← 返回文章列表</a>
     {{ else if eq .Section "notes" }}
-      <a class="back-link" href="{{ "/notes/" | relLangURL }}">← 返回短记列表</a>
+      <a class="back-link" href="{{ "notes/" | relLangURL }}">← 返回短记列表</a>
     {{ end }}
     <header class="article-header">
       {{ if eq .Section "notes" }}

@@ -1,7 +1,7 @@
 {{- $currentPage := . -}}
 <div class="sidebar-panel">
   <div class="sidebar-top">
-    <a class="sidebar-brand" href="{{ "/" | relLangURL }}">
+    <a class="sidebar-brand" href="{{ .Site.Home.RelPermalink }}">
       <span class="sidebar-title">{{ .Site.Title }}</span>
       <span class="sidebar-subtitle">{{ .Site.Params.homeIntro }}</span>
     </a>
@@ -21,9 +21,9 @@
   <div class="sidebar-meta">
     <p class="sidebar-note">纯公开的个人写作博客。左侧保留导航和说明，右侧只负责安静地承载内容。</p>
     <div class="sidebar-links">
-      <a href="{{ "/index.xml" | relLangURL }}">RSS</a>
-      <a href="{{ "/about/" | relLangURL }}">About</a>
-      <a href="{{ "/tags/" | relLangURL }}">标签</a>
+      <a href="{{ "index.xml" | relLangURL }}">RSS</a>
+      <a href="{{ "about/" | relLangURL }}">About</a>
+      <a href="{{ "tags/" | relLangURL }}">标签</a>
     </div>
   </div>
 </div>

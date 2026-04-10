@@ -1,7 +1,7 @@
 {{- $currentPage := . -}}
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="{{ "/" | relLangURL }}">{{ .Site.Title }}</a>
+    <a class="brand" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
     <nav class="site-nav" aria-label="主导航">
       {{ range .Site.Menus.main }}
         {{ $isActive := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}

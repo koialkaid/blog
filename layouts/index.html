@@ -19,7 +19,7 @@
         <p class="section-kicker">Posts</p>
         <h2>最近文章</h2>
       </div>
-      <p><a href="{{ "/posts/" | relLangURL }}">查看全部文章</a></p>
+      <p><a href="{{ "posts/" | relLangURL }}">查看全部文章</a></p>
     </div>
     <div class="writing-list">
       {{ range first 3 $recentPosts }}
@@ -36,7 +36,7 @@
         <p class="section-kicker">Notes</p>
         <h2>最近短记</h2>
       </div>
-      <p><a href="{{ "/notes/" | relLangURL }}">查看全部短记</a></p>
+      <p><a href="{{ "notes/" | relLangURL }}">查看全部短记</a></p>
     </div>
     <div class="writing-list">
       {{ range first 3 $recentNotes }}
