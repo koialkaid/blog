@@ -68,7 +68,7 @@ $checks = @(
   @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and $postCount -gt 100 },
   @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
   @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
-  @{ Name = 'post page renders on-this-page panel in sidebar'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'sidebar-context-panel' },
+  @{ Name = 'post page no longer renders on-this-page panel'; Ok = $postHtml -notmatch 'On This Page' -and $postHtml -notmatch 'sidebar-context-panel' },
   @{ Name = 'post page no longer renders old article toc column'; Ok = $postHtml -notmatch 'article-toc' -and $postHtml -notmatch 'article-layout' }
 )
 

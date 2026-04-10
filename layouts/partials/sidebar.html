@@ -1,5 +1,4 @@
 {{- $currentPage := . -}}
-{{- $isArticlePage := and .IsPage (or (eq .Section "posts") (eq .Section "notes")) -}}
 <div class="sidebar-panel">
   <section class="sidebar-brand-card">
     <a class="sidebar-brand" href="{{ .Site.Home.RelPermalink }}">
@@ -32,18 +31,4 @@
     </div>
   </section>
 
-  {{ if $isArticlePage }}
-    {{ $toc := .TableOfContents }}
-    {{ $tocText := $toc | plainify | trim " \n\r\t" }}
-    <section class="sidebar-context-panel">
-      <p class="sidebar-panel-kicker">On This Page</p>
-      {{ if gt (len $tocText) 0 }}
-        <div class="sidebar-toc">
-          {{ $toc }}
-        </div>
-      {{ else }}
-        <p class="sidebar-note">这篇文章还没有分节标题。等内容更长一点，这里会自动出现目录索引。</p>
-      {{ end }}
-    </section>
-  {{ end }}
 </div>
