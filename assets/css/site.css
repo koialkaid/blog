@@ -478,6 +478,41 @@ h3 {
   max-width: 46rem;
 }
 
+.article-toc-block {
+  margin-top: 1.2rem;
+  padding: 0.95rem 1rem 1rem;
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+}
+
+.article-toc-content nav ul {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.article-toc-content nav ul ul {
+  margin-top: 0.35rem;
+  margin-left: 0.35rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--line);
+}
+
+.article-toc-content li {
+  display: grid;
+}
+
+.article-toc-content a {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.article-toc-content a:hover {
+  color: var(--accent);
+}
+
 .article-body {
   max-width: 46rem;
   padding-top: 1.35rem;

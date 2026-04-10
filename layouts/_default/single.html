@@ -1,4 +1,6 @@
 {{ define "main" }}
+  {{ $toc := .TableOfContents }}
+  {{ $tocText := $toc | plainify | trim " \n\r\t" }}
   <article class="article-page">
     {{ if eq .Section "posts" }}
       <a class="back-link" href="{{ "posts/" | relLangURL }}">← 返回文章列表</a>
@@ -33,6 +35,14 @@
           </ul>
         {{ end }}
       </header>
+      {{ if gt (len $tocText) 0 }}
+        <div class="article-toc-block">
+          <p class="section-kicker">On This Page</p>
+          <div class="article-toc-content">
+            {{ $toc }}
+          </div>
+        </div>
+      {{ end }}
       <div class="article-body">
         {{ .Content }}
       </div>
