@@ -2,10 +2,23 @@
 {{- $rawDescription := .Description | default .Params.description | default (.Summary | plainify) | default .Site.Params.description -}}
 {{- $description := $rawDescription | truncate 160 -}}
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.Lang | default "zh-cn" }}">
+<html lang="{{ .Site.Language.Lang | default "zh-cn" }}" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function () {
+      var theme = 'light';
+      try {
+        var storedTheme = localStorage.getItem('theme');
+        if (storedTheme === 'dark' || storedTheme === 'light') {
+          theme = storedTheme;
+        }
+      } catch (error) {}
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+    })();
+  </script>
   <title>{{ $title }}</title>
   <meta name="description" content="{{ $description }}">
   <meta name="author" content="{{ .Site.Params.author }}">
@@ -27,4 +40,40 @@
   {{ with .OutputFormats.Get "RSS" }}
     <link rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" href="{{ .RelPermalink }}">
   {{ end }}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var storageKey = 'theme';
+      var root = document.documentElement;
+      var buttons = document.querySelectorAll('[data-theme-toggle]');
+
+      function applyTheme(theme) {
+        var nextTheme = theme === 'dark' ? 'dark' : 'light';
+        root.dataset.theme = nextTheme;
+        root.style.colorScheme = nextTheme;
+
+        buttons.forEach(function (button) {
+          var isDark = nextTheme === 'dark';
+          button.setAttribute('aria-pressed', String(isDark));
+          button.dataset.mode = nextTheme;
+
+          var state = button.querySelector('[data-theme-state]');
+          if (state) {
+            state.textContent = isDark ? 'Night' : 'Day';
+          }
+        });
+      }
+
+      applyTheme(root.dataset.theme || 'light');
+
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          var nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+          try {
+            localStorage.setItem(storageKey, nextTheme);
+          } catch (error) {}
+          applyTheme(nextTheme);
+        });
+      });
+    });
+  </script>
 </head>

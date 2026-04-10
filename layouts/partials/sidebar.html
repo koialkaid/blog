@@ -18,6 +18,18 @@
         </a>
       {{ end }}
     </nav>
+    <div class="sidebar-controls">
+      <button
+        type="button"
+        class="theme-toggle"
+        data-theme-toggle
+        data-mode="light"
+        aria-label="切换日间和夜间模式"
+        aria-pressed="false">
+        <span class="theme-toggle-label">Day / Night</span>
+        <span class="theme-toggle-state" data-theme-state>Day</span>
+      </button>
+    </div>
   </section>
 
   {{ if $isArticlePage }}
