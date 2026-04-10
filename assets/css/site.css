@@ -409,16 +409,8 @@ h3 {
   gap: 1rem;
 }
 
-.reading-label {
-  flex-shrink: 0;
-  padding: 0.28rem 0.52rem;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  background: var(--overlay-soft);
-  color: var(--ink);
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+.reading-card-top {
+  justify-content: flex-start;
 }
 
 .writing-meta,

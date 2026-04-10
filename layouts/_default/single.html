@@ -17,7 +17,7 @@
         <h1>{{ .Title }}</h1>
         <div class="article-meta">
           {{ with .Date }}<span>{{ .Format "2006-01-02" }}</span>{{ end }}
-          {{ if .ReadingTime }}<span>{{ .ReadingTime }} 分钟阅读</span>{{ end }}
+          <span>{{ partial "word-count.html" . }}</span>
           {{ with .Params.tags }}<span>{{ len . }} 个标签</span>{{ end }}
         </div>
         {{ with .Description }}
