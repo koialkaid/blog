@@ -25,7 +25,9 @@ $checks = @(
   @{ Name = 'home uses card-based article layout'; Ok = $homeHtml -match 'class=reading-card' },
   @{ Name = 'home exposes explicit read-more action'; Ok = $homeHtml -match 'class=reading-action' },
   @{ Name = 'sidebar uses separated editorial panels'; Ok = $homeHtml -match 'sidebar-brand-card' -and $homeHtml -match 'sidebar-nav-panel' },
-  @{ Name = 'post page renders article toc block'; Ok = $postHtml -match 'article-toc' }
+  @{ Name = 'home keeps writing note panel in sidebar'; Ok = $homeHtml -match 'Writing Note' },
+  @{ Name = 'post page renders on-this-page panel in sidebar'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'sidebar-context-panel' },
+  @{ Name = 'post page no longer renders old article toc column'; Ok = $postHtml -notmatch 'article-toc' -and $postHtml -notmatch 'article-layout' }
 )
 
 $failed = $checks | Where-Object { -not $_.Ok }
