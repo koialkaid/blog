@@ -274,7 +274,9 @@ blockquote {
 
 .sidebar-profile-card {
   display: grid;
-  gap: 0.9rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0.9rem;
   padding: 0.95rem 1rem 1rem;
 }
 
@@ -300,6 +302,7 @@ blockquote {
 .profile-copy {
   display: grid;
   gap: 0.35rem;
+  align-content: center;
 }
 
 .profile-name {
@@ -724,12 +727,21 @@ h3 {
     border-radius: 0;
   }
 
+  .sidebar-profile-card {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
   .sidebar-title {
     font-size: 1.62rem;
   }
 
   .sidebar-nav {
     grid-template-columns: 1fr;
+  }
+
+  .sidebar-profile-card {
+    grid-template-columns: 1fr;
+    row-gap: 0.7rem;
   }
 
   .section-heading,
