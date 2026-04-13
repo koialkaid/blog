@@ -714,56 +714,24 @@ h3 {
   background: none;
 }
 
-.series-reading-list {
-  display: grid;
-  gap: 0.5rem;
-  padding-left: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.series-reading-list li {
+.series-progress {
+  margin-bottom: 0.7rem;
   color: var(--muted);
-}
-
-.series-reading-list li.is-current {
-  color: var(--ink);
-}
-
-.series-reading-list li.is-current strong {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.12em;
-}
-
-.series-reading-list a {
-  display: grid;
-  gap: 0.12rem;
-  padding-left: 0.55rem;
-  border-left: 2px solid transparent;
-}
-
-.series-reading-list li.is-current a {
-  border-left-color: var(--accent);
-}
-
-.series-reading-list span {
-  color: var(--muted);
-  font-size: 0.78rem;
-}
-
-.series-reading-list strong {
-  color: inherit;
-  font-weight: 600;
   font-size: 0.84rem;
-  line-height: 1.4;
 }
 
-.series-reading-list em {
+.series-link {
+  display: inline-flex;
   width: fit-content;
-  color: var(--muted);
-  font-size: 0.72rem;
-  font-style: normal;
+  padding-bottom: 0.1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.84rem;
+}
+
+.series-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .taxonomy-section {

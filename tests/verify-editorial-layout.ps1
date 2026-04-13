@@ -105,13 +105,13 @@ $checks = @(
   @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -match 'article-page-shell' },
   @{ Name = 'toc aside uses sticky positioning'; Ok = $cssText -match '\.article-aside\{[^}]*position:sticky[^}]*top:[^;}]+[^}]*' },
   @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-aside\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' },
-  @{ Name = 'toc and series cards keep visible card shadow'; Ok = $cssText -match '\.article-toc-card,\\.series-reading-card\{[^}]*box-shadow:var\(--shadow-card\)' },
+  @{ Name = 'toc and series cards keep visible card shadow'; Ok = $cssText -match '\.article-toc-card,\s*\.series-reading-card\{[^}]*box-shadow:var\(--shadow-card\)' },
   @{ Name = 'series index page exists and lists agent learning'; Ok = $seriesHtml -match '<h1>系列</h1>' -and $seriesHtml -match 'Agent 学习' },
   @{ Name = 'agent learning series page sorts entries by series order'; Ok = $agentSeriesOrderOk },
   @{ Name = 'series article shows series metadata'; Ok = $agentArticleHtml -match '系列：Agent 学习' -and $agentArticleHtml -match '第 1 篇' },
-  @{ Name = 'series article shows same-series reading card in aside'; Ok = $agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' },
+  @{ Name = 'series article shows simplified series status card in aside'; Ok = $agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习' -and $agentArticleHtml -match '第 1 / 3 篇' -and $agentArticleHtml -match '查看系列' },
   @{ Name = 'series reading is removed from article main'; Ok = $agentArticleHtml -notmatch '<div class=article-main>[\s\S]*<section class=series-reading' },
-  @{ Name = 'series reading marks current article'; Ok = $agentArticleHtml -match '<em>当前</em>' },
+  @{ Name = 'series reading no longer lists full article titles in aside'; Ok = $agentArticleHtml -notmatch 'series-reading-list' -and $agentArticleHtml -notmatch 'Agent 学习 02：工具调用为什么重要' -and $agentArticleHtml -notmatch 'Agent 学习 03：让 Agent 做事之前先定边界' },
   @{ Name = 'non-series article does not render series block'; Ok = $postHtml -notmatch 'series-reading-card' -and $postHtml -notmatch '系列：' }
 )
 

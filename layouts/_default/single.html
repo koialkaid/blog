@@ -9,6 +9,12 @@
   {{ if $seriesName }}
     {{ $seriesPages = sort (where (where .Site.RegularPages "Section" "posts") "Params.series" "intersect" (slice $seriesName)) "Params.series_order" "asc" }}
   {{ end }}
+  {{ $currentSeriesPosition := 0 }}
+  {{ range $index, $seriesPage := $seriesPages }}
+    {{ if eq $seriesPage.RelPermalink $.RelPermalink }}
+      {{ $currentSeriesPosition = add $index 1 }}
+    {{ end }}
+  {{ end }}
   {{ $hasToc := gt (len $tocText) 0 }}
   {{ $hasSeries := gt (len $seriesPages) 0 }}
   <article class="article-page">
@@ -72,17 +78,8 @@
             <div class="series-reading-card">
               <p class="section-kicker">Series</p>
               <h2>{{ $seriesName }}</h2>
-              <ol class="series-reading-list">
-                {{ range $seriesPages }}
-                  <li{{ if eq .RelPermalink $.RelPermalink }} class="is-current"{{ end }}>
-                    <a href="{{ .RelPermalink }}">
-                      {{ with .Params.series_order }}<span>第 {{ . }} 篇</span>{{ end }}
-                      <strong>{{ .Title }}</strong>
-                      {{ if eq .RelPermalink $.RelPermalink }}<em>当前</em>{{ end }}
-                    </a>
-                  </li>
-                {{ end }}
-              </ol>
+              <p class="series-progress">第 {{ $currentSeriesPosition }} / {{ len $seriesPages }} 篇</p>
+              <a class="series-link" href="{{ printf "series/%s/" ($seriesName | urlize) | relLangURL }}">查看系列</a>
             </div>
           {{ end }}
         </aside>
