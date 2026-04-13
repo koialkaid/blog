@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-label="黑白写作台面插图">
+  <rect width="1200" height="720" fill="#f4f4f4"/>
+  <rect x="104" y="118" width="992" height="468" fill="#ffffff" stroke="#0f0f0f" stroke-width="12"/>
+  <rect x="180" y="176" width="840" height="290" fill="#fbfbfb" stroke="#151515" stroke-width="6"/>
+  <line x1="226" y1="240" x2="948" y2="240" stroke="#161616" stroke-width="8"/>
+  <line x1="226" y1="302" x2="948" y2="302" stroke="#5a5a5a" stroke-width="6"/>
+  <line x1="226" y1="360" x2="900" y2="360" stroke="#5a5a5a" stroke-width="6"/>
+  <rect x="242" y="522" width="138" height="30" fill="#141414"/>
+  <rect x="820" y="506" width="138" height="46" fill="#1b1b1b"/>
+  <path d="M810 150l102 0 64 52-102 0z" fill="#161616"/>
+  <path d="M788 204l94 0 58 44-94 0z" fill="#6a6a6a"/>
