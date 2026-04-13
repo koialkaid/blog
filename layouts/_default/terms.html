@@ -1,6 +1,7 @@
 {{ define "main" }}
+  {{ $isSeries := eq .Data.Singular "series" }}
   <section class="page-header">
-    {{ if eq .Data.Singular "series" }}
+    {{ if $isSeries }}
       <p class="section-kicker">Browse Series</p>
       <h1>系列</h1>
     {{ else }}
@@ -9,14 +10,35 @@
     {{ end }}
   </section>
 
-  <section class="taxonomy-section">
+  <section class="taxonomy-section{{ if $isSeries }} taxonomy-series-list{{ else }} taxonomy-tag-grid{{ end }}">
     {{ range .Data.Terms.Alphabetical }}
-      <div class="taxonomy-card">
-        <a class="tag-pill" href="{{ .Page.RelPermalink }}">
-          #{{ .Page.Title }}
-          <span>{{ .Count }}</span>
-        </a>
-      </div>
+      {{ if $isSeries }}
+        {{ $seriesTitle := .Page.Title }}
+        {{ $seriesMeta := dict }}
+        {{ range hugo.Data.series }}
+          {{ if eq .title $seriesTitle }}
+            {{ $seriesMeta = . }}
+          {{ end }}
+        {{ end }}
+        <article class="taxonomy-card taxonomy-series-card">
+          <a class="taxonomy-series-link" href="{{ .Page.RelPermalink }}">
+            <div class="taxonomy-series-head">
+              <h2>{{ .Page.Title }}</h2>
+              <span>{{ .Count }}</span>
+            </div>
+            {{ with $seriesMeta.description }}
+              <p class="taxonomy-series-description">{{ . }}</p>
+            {{ end }}
+          </a>
+        </article>
+      {{ else }}
+        <div class="taxonomy-card taxonomy-tag-card">
+          <a class="tag-pill" href="{{ .Page.RelPermalink }}">
+            #{{ .Page.Title }}
+            <span>{{ .Count }}</span>
+          </a>
+        </div>
+      {{ end }}
     {{ else }}
       <div class="empty-state">还没有标签。</div>
     {{ end }}

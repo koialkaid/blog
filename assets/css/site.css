@@ -784,12 +784,61 @@ h3 {
   gap: 0.95rem;
 }
 
+.taxonomy-tag-grid {
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.75rem;
+}
+
 .taxonomy-card {
   padding: 1.1rem 1.2rem;
 }
 
+.taxonomy-tag-card {
+  padding: 0.85rem 0.95rem;
+}
+
 .taxonomy-card .tag-pill {
-  margin-bottom: 0.55rem;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.taxonomy-series-list {
+  gap: 0.75rem;
+}
+
+.taxonomy-series-card {
+  padding: 0;
+}
+
+.taxonomy-series-link {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem 1.05rem;
+}
+
+.taxonomy-series-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.taxonomy-series-head h2 {
+  font-size: 1.06rem;
+  line-height: 1.3;
+}
+
+.taxonomy-series-head span {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.taxonomy-series-description {
+  max-width: 40rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .empty-state {

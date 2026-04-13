@@ -111,6 +111,8 @@ $checks = @(
   @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-aside\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' },
   @{ Name = 'toc and series cards keep visible card shadow'; Ok = $cssText -match '\.article-toc-card,\s*\.series-reading-card\{[^}]*box-shadow:var\(--shadow-card\)' },
   @{ Name = 'series index page exists and lists agent learning'; Ok = $seriesHtml -match '<h1>系列</h1>' -and $seriesHtml -match 'Agent 学习' },
+  @{ Name = 'tags page uses compact grid layout'; Ok = $tagsHtml -match 'taxonomy-tag-grid' -and $tagsHtml -match 'taxonomy-tag-card' },
+  @{ Name = 'series index shows description for agent learning'; Ok = $seriesHtml -match 'taxonomy-series-card' -and $seriesHtml -match 'Agent 学习' -and $seriesHtml -match '基本概念、工具调用与边界设定' },
   @{ Name = 'agent learning series page sorts entries by series order'; Ok = $agentSeriesOrderOk },
   @{ Name = 'series article shows series metadata'; Ok = $agentArticleHtml -match '系列：Agent 学习' -and $agentArticleHtml -match '第 1 篇' },
   @{ Name = 'series article shows full series list card in aside'; Ok = $agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习 01' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' -and $agentArticleHtml -match '查看系列' },
