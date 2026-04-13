@@ -19,12 +19,13 @@
   --overlay-muted: rgba(0, 0, 0, 0.55);
   --shadow-soft: 8px 8px 0 rgba(0, 0, 0, 0.04);
   --shadow-card: 6px 6px 0 rgba(0, 0, 0, 0.05);
+  --sidebar-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
   --brand-ink: #ffffff;
   --brand-start: #1a1a1a;
   --brand-end: #000000;
   --brand-top-glow: rgba(255, 255, 255, 0.04);
   --brand-border: rgba(255, 255, 255, 0.08);
-  --brand-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --brand-shadow: var(--sidebar-shadow);
   --code-bg: rgba(0, 0, 0, 0.05);
   --pre-bg: #f7f7f7;
   --empty-bg: rgba(255, 255, 255, 0.75);
@@ -58,12 +59,13 @@ html[data-theme="dark"] {
   --overlay-muted: rgba(255, 255, 255, 0.5);
   --shadow-soft: 8px 8px 0 rgba(0, 0, 0, 0.26);
   --shadow-card: 6px 6px 0 rgba(0, 0, 0, 0.3);
+  --sidebar-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
   --brand-ink: #f8f8f8;
   --brand-start: #161616;
   --brand-end: #0d0d0d;
   --brand-top-glow: rgba(255, 255, 255, 0.02);
   --brand-border: rgba(255, 255, 255, 0.1);
-  --brand-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --brand-shadow: var(--sidebar-shadow);
   --code-bg: rgba(255, 255, 255, 0.06);
   --pre-bg: #202020;
   --empty-bg: rgba(255, 255, 255, 0.04);
@@ -144,6 +146,12 @@ blockquote {
   border-radius: var(--radius-lg);
   background: var(--panel-bg);
   box-shadow: var(--shadow-card);
+}
+
+.sidebar-brand-card,
+.sidebar-nav-panel,
+.sidebar-profile-card {
+  box-shadow: var(--sidebar-shadow);
 }
 
 .sidebar-brand-card {
