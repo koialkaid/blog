@@ -133,6 +133,7 @@ blockquote {
 
 .sidebar-brand-card,
 .sidebar-nav-panel,
+.sidebar-profile-card,
 .sidebar-context-panel,
 .home-intro,
 .page-header,
@@ -269,6 +270,57 @@ blockquote {
 
 .theme-toggle[aria-pressed="true"] .theme-toggle-state {
   color: var(--ink);
+}
+
+.sidebar-profile-card {
+  display: grid;
+  gap: 0.9rem;
+  padding: 0.95rem 1rem 1rem;
+}
+
+.profile-avatar {
+  width: 3.4rem;
+  height: 3.4rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, transparent 38%, var(--line) 39%, var(--line) 41%, transparent 42%),
+    radial-gradient(circle at 50% 35%, transparent 16%, var(--line) 17%, var(--line) 20%, transparent 21%),
+    transparent;
+}
+
+.profile-avatar-mark {
+  width: 1.55rem;
+  height: 1.55rem;
+  border: 1px solid transparent;
+}
+
+.profile-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.profile-name {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.profile-link {
+  display: inline-flex;
+  width: fit-content;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding-bottom: 0.1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.profile-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .site-content {
@@ -662,6 +714,7 @@ h3 {
 
   .sidebar-brand-card,
   .sidebar-nav-panel,
+  .sidebar-profile-card,
   .page-header,
   .reading-card,
   .article-main,
