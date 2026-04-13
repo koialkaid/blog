@@ -41,7 +41,7 @@ pageRef = '/posts'
 weight = 20
 
 [[menu.main]]
-name = '短记'
+name = '日记'
 pageRef = '/notes'
 weight = 30
 
