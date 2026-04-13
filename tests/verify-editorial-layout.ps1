@@ -79,6 +79,8 @@ $postCount = if ($postCountMatch.Success) {
 $homeCardCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card')).Count
 $homeNoteCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card is-note')).Count
 $agentSeriesOrderOk = $agentSeriesHtml -match 'Agent 学习 01[\s\S]*Agent 学习 02[\s\S]*Agent 学习 03'
+$sidebarOrderOk = $homeHtml -match 'sidebar-brand-card[\s\S]*sidebar-profile-card[\s\S]*sidebar-nav-panel'
+$navOrderOk = $homeHtml -match '<span>首页</span>[\s\S]*<span>文章</span>[\s\S]*<span>日记</span>[\s\S]*<span>系列</span>[\s\S]*<span>标签</span>[\s\S]*<span>About</span>[\s\S]*<span>RSS</span>'
 
 $checks = @(
   @{ Name = 'home uses card-based article layout'; Ok = $homeHtml -match 'class=reading-card' },
@@ -86,6 +88,8 @@ $checks = @(
   @{ Name = 'notes display labels are renamed to diary'; Ok = $homeHtml -match '最近日记' -and $homeHtml -match '查看全部日记' -and $notesHtml -match '<h1>日记</h1>' -and $notesHtml -notmatch $oldNotesLabel },
   @{ Name = 'home exposes explicit read-more action'; Ok = $homeHtml -match 'class=reading-action' },
   @{ Name = 'sidebar uses separated editorial panels'; Ok = $homeHtml -match 'sidebar-brand-card' -and $homeHtml -match 'sidebar-nav-panel' },
+  @{ Name = 'profile card is placed between brand and nav'; Ok = $sidebarOrderOk },
+  @{ Name = 'sidebar nav orders series before tags'; Ok = $navOrderOk },
   @{ Name = 'sidebar renders personal profile card'; Ok = ($themePages | Where-Object { $_ -match 'sidebar-profile-card' -and $_ -match 'profile-main' -and $_ -match 'profile-links' -and $_ -match '>koi<' -and $_ -match 'https://linux.do/u/koi_alkaid/summary' -and $_ -match 'profile/avatar.jpg' }).Count -eq $themePages.Count },
   @{ Name = 'home no longer renders intro card'; Ok = $homeHtml -notmatch 'Writing Index' -and $homeHtml -notmatch 'class=home-intro' },
   @{ Name = 'home no longer renders writing note panel'; Ok = $homeHtml -notmatch 'Writing Note' -and $homeHtml -notmatch 'sidebar-context-panel' },
@@ -109,9 +113,9 @@ $checks = @(
   @{ Name = 'series index page exists and lists agent learning'; Ok = $seriesHtml -match '<h1>系列</h1>' -and $seriesHtml -match 'Agent 学习' },
   @{ Name = 'agent learning series page sorts entries by series order'; Ok = $agentSeriesOrderOk },
   @{ Name = 'series article shows series metadata'; Ok = $agentArticleHtml -match '系列：Agent 学习' -and $agentArticleHtml -match '第 1 篇' },
-  @{ Name = 'series article shows simplified series status card in aside'; Ok = $agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习' -and $agentArticleHtml -match '第 1 / 3 篇' -and $agentArticleHtml -match '查看系列' },
+  @{ Name = 'series article shows full series list card in aside'; Ok = $agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习 01' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' -and $agentArticleHtml -match '查看系列' },
   @{ Name = 'series reading is removed from article main'; Ok = $agentArticleHtml -notmatch '<div class=article-main>[\s\S]*<section class=series-reading' },
-  @{ Name = 'series reading no longer lists full article titles in aside'; Ok = $agentArticleHtml -notmatch 'series-reading-list' -and $agentArticleHtml -notmatch 'Agent 学习 02：工具调用为什么重要' -and $agentArticleHtml -notmatch 'Agent 学习 03：让 Agent 做事之前先定边界' },
+  @{ Name = 'series reading marks current article'; Ok = $agentArticleHtml -match '<em>当前</em>' },
   @{ Name = 'non-series article does not render series block'; Ok = $postHtml -notmatch 'series-reading-card' -and $postHtml -notmatch '系列：' }
 )
 

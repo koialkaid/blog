@@ -164,6 +164,11 @@ blockquote {
   gap: 0;
 }
 
+.sidebar-brand:hover,
+.sidebar-brand:focus-visible {
+  color: var(--brand-ink);
+}
+
 .sidebar-title {
   font-size: 1.78rem;
   line-height: 1.02;
@@ -632,6 +637,52 @@ h3 {
   line-height: 1.25;
 }
 
+.series-reading-list {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 0;
+  margin: 0 0 0.72rem;
+  list-style: none;
+}
+
+.series-reading-list li {
+  color: var(--muted);
+}
+
+.series-reading-list a {
+  display: grid;
+  gap: 0.1rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid transparent;
+}
+
+.series-reading-list li.is-current {
+  color: var(--ink);
+}
+
+.series-reading-list li.is-current a {
+  border-left-color: var(--accent);
+}
+
+.series-reading-list span {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.series-reading-list strong {
+  color: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.series-reading-list em {
+  width: fit-content;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-style: normal;
+}
+
 .article-toc-content nav ul {
   display: grid;
   gap: 0.32rem;
@@ -712,12 +763,6 @@ h3 {
 .article-body pre code {
   padding: 0;
   background: none;
-}
-
-.series-progress {
-  margin-bottom: 0.7rem;
-  color: var(--muted);
-  font-size: 0.84rem;
 }
 
 .series-link {

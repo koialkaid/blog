@@ -78,7 +78,17 @@
             <div class="series-reading-card">
               <p class="section-kicker">Series</p>
               <h2>{{ $seriesName }}</h2>
-              <p class="series-progress">第 {{ $currentSeriesPosition }} / {{ len $seriesPages }} 篇</p>
+              <ol class="series-reading-list">
+                {{ range $seriesPages }}
+                  <li{{ if eq .RelPermalink $.RelPermalink }} class="is-current"{{ end }}>
+                    <a href="{{ .RelPermalink }}">
+                      {{ with .Params.series_order }}<span>第 {{ . }} 篇</span>{{ end }}
+                      <strong>{{ .Title }}</strong>
+                      {{ if eq .RelPermalink $.RelPermalink }}<em>当前</em>{{ end }}
+                    </a>
+                  </li>
+                {{ end }}
+              </ol>
               <a class="series-link" href="{{ printf "series/%s/" ($seriesName | urlize) | relLangURL }}">查看系列</a>
             </div>
           {{ end }}
