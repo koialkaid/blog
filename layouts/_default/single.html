@@ -9,13 +9,15 @@
   {{ if $seriesName }}
     {{ $seriesPages = sort (where (where .Site.RegularPages "Section" "posts") "Params.series" "intersect" (slice $seriesName)) "Params.series_order" "asc" }}
   {{ end }}
+  {{ $hasToc := gt (len $tocText) 0 }}
+  {{ $hasSeries := gt (len $seriesPages) 0 }}
   <article class="article-page">
     {{ if eq .Section "posts" }}
       <a class="back-link" href="{{ "posts/" | relLangURL }}">← 返回文章列表</a>
     {{ else if eq .Section "notes" }}
       <a class="back-link" href="{{ "notes/" | relLangURL }}">← 返回日记列表</a>
     {{ end }}
-    <div class="article-page-shell{{ if not (gt (len $tocText) 0) }} no-toc{{ end }}">
+    <div class="article-page-shell{{ if not (or $hasToc $hasSeries) }} no-aside{{ end }}">
       <div class="article-main">
         <header class="article-header">
           {{ if eq .Section "notes" }}
@@ -55,31 +57,34 @@
         <div class="article-body">
           {{ .Content }}
         </div>
-        {{ if gt (len $seriesPages) 0 }}
-          <section class="series-reading">
-            <p class="section-kicker">Series</p>
-            <h2>同系列阅读：{{ $seriesName }}</h2>
-            <ol class="series-reading-list">
-              {{ range $seriesPages }}
-                <li{{ if eq .RelPermalink $.RelPermalink }} class="is-current"{{ end }}>
-                  <a href="{{ .RelPermalink }}">
-                    {{ with .Params.series_order }}<span>第 {{ . }} 篇</span>{{ end }}
-                    <strong>{{ .Title }}</strong>
-                  </a>
-                </li>
-              {{ end }}
-            </ol>
-          </section>
-        {{ end }}
       </div>
-      {{ if gt (len $tocText) 0 }}
-        <aside class="article-toc-aside" aria-label="文章目录">
-          <div class="article-toc-card">
-            <p class="section-kicker">On This Page</p>
-            <div class="article-toc-content">
-              {{ $toc }}
+      {{ if or $hasToc $hasSeries }}
+        <aside class="article-aside" aria-label="文章辅助信息">
+          {{ if $hasToc }}
+            <div class="article-toc-card">
+              <p class="section-kicker">On This Page</p>
+              <div class="article-toc-content">
+                {{ $toc }}
+              </div>
             </div>
-          </div>
+          {{ end }}
+          {{ if $hasSeries }}
+            <div class="series-reading-card">
+              <p class="section-kicker">Series</p>
+              <h2>{{ $seriesName }}</h2>
+              <ol class="series-reading-list">
+                {{ range $seriesPages }}
+                  <li{{ if eq .RelPermalink $.RelPermalink }} class="is-current"{{ end }}>
+                    <a href="{{ .RelPermalink }}">
+                      {{ with .Params.series_order }}<span>第 {{ . }} 篇</span>{{ end }}
+                      <strong>{{ .Title }}</strong>
+                      {{ if eq .RelPermalink $.RelPermalink }}<em>当前</em>{{ end }}
+                    </a>
+                  </li>
+                {{ end }}
+              </ol>
+            </div>
+          {{ end }}
         </aside>
       {{ end }}
     </div>

@@ -99,18 +99,20 @@ $checks = @(
   @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and $postCount -gt 100 },
   @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
   @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
-  @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'article-toc-aside' -and $postHtml -match 'article-toc-card' },
+  @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'article-aside' -and $postHtml -match 'article-toc-card' },
   @{ Name = 'post page toc is not rendered in sidebar'; Ok = $postHtml -notmatch 'sidebar-context-panel' },
   @{ Name = 'post page toc is not rendered before body inside main flow'; Ok = $postHtml -notmatch 'article-toc-block' },
   @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -match 'article-page-shell' },
-  @{ Name = 'toc aside uses sticky positioning'; Ok = $cssText -match '\.article-toc-aside\{[^}]*position:sticky[^}]*top:[^;}]+[^}]*' },
-  @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-toc-card\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' },
-  @{ Name = 'toc card keeps visible card shadow'; Ok = $cssText -match '\.article-toc-card\{[^}]*box-shadow:var\(--shadow-card\)' },
+  @{ Name = 'toc aside uses sticky positioning'; Ok = $cssText -match '\.article-aside\{[^}]*position:sticky[^}]*top:[^;}]+[^}]*' },
+  @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-aside\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' },
+  @{ Name = 'toc and series cards keep visible card shadow'; Ok = $cssText -match '\.article-toc-card,\\.series-reading-card\{[^}]*box-shadow:var\(--shadow-card\)' },
   @{ Name = 'series index page exists and lists agent learning'; Ok = $seriesHtml -match '<h1>系列</h1>' -and $seriesHtml -match 'Agent 学习' },
   @{ Name = 'agent learning series page sorts entries by series order'; Ok = $agentSeriesOrderOk },
   @{ Name = 'series article shows series metadata'; Ok = $agentArticleHtml -match '系列：Agent 学习' -and $agentArticleHtml -match '第 1 篇' },
-  @{ Name = 'series article shows same-series reading block'; Ok = $agentArticleHtml -match '同系列阅读' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' },
-  @{ Name = 'non-series article does not render series block'; Ok = $postHtml -notmatch '同系列阅读' -and $postHtml -notmatch '系列：' }
+  @{ Name = 'series article shows same-series reading card in aside'; Ok = $agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' },
+  @{ Name = 'series reading is removed from article main'; Ok = $agentArticleHtml -notmatch '<div class=article-main>[\s\S]*<section class=series-reading' },
+  @{ Name = 'series reading marks current article'; Ok = $agentArticleHtml -match '<em>当前</em>' },
+  @{ Name = 'non-series article does not render series block'; Ok = $postHtml -notmatch 'series-reading-card' -and $postHtml -notmatch '系列：' }
 )
 
 $failed = $checks | Where-Object { -not $_.Ok }
