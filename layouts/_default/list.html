@@ -10,6 +10,15 @@
   {{ $paginator := .Paginate $sortedPages }}
 
   <section class="page-header">
+    {{ $seriesDescription := "" }}
+    {{ if and (eq .Kind "term") (eq .Data.Singular "series") }}
+      {{ $seriesTitle := .Title }}
+      {{ range hugo.Data.series }}
+        {{ if eq .title $seriesTitle }}
+          {{ $seriesDescription = .description }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
     {{ if eq .Kind "taxonomy" }}
       {{ if eq .Data.Singular "series" }}
         <p class="section-kicker">Series</p>
@@ -29,7 +38,9 @@
     {{ end }}
     <h1>{{ .Title }}</h1>
     {{ $hideSectionIntro := and (eq .Kind "section") (or (eq .Section "posts") (eq .Section "notes")) }}
-    {{ if not $hideSectionIntro }}
+    {{ if $seriesDescription }}
+      <p class="lede">{{ $seriesDescription }}</p>
+    {{ else if not $hideSectionIntro }}
       {{ with .Description }}
         <p class="lede">{{ . }}</p>
       {{ else }}

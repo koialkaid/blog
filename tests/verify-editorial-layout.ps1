@@ -23,6 +23,11 @@ $postsHtml = Get-Content -Path (Join-Path $outputDir 'posts\index.html') -Raw
 $notesHtml = Get-Content -Path (Join-Path $outputDir 'notes\index.html') -Raw
 $tagsHtml = Get-Content -Path (Join-Path $outputDir 'tags\index.html') -Raw
 $aboutHtml = Get-Content -Path (Join-Path $outputDir 'about\index.html') -Raw
+$todoHtml = if (Test-Path (Join-Path $outputDir 'todo\index.html')) {
+  Get-Content -Path (Join-Path $outputDir 'todo\index.html') -Raw
+} else {
+  ''
+}
 $postHtml = Get-Content -Path (Join-Path $outputDir 'posts\welcome-to-my-blog\index.html') -Raw
 $seriesHtml = if (Test-Path (Join-Path $outputDir 'series\index.html')) {
   Get-Content -Path (Join-Path $outputDir 'series\index.html') -Raw
@@ -53,7 +58,7 @@ $tagDetailHtml = if ($tagDetailFile) {
   ''
 }
 
-$themePages = @($homeHtml, $postsHtml, $notesHtml, $tagsHtml, $aboutHtml, $postHtml)
+$themePages = @($homeHtml, $postsHtml, $notesHtml, $tagsHtml, $aboutHtml, $todoHtml, $postHtml)
 if ($tagDetailHtml) {
   $themePages += $tagDetailHtml
 }
@@ -80,7 +85,7 @@ $homeCardCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card'
 $homeNoteCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card is-note')).Count
 $agentSeriesOrderOk = $agentSeriesHtml -match 'Agent 学习 01[\s\S]*Agent 学习 02[\s\S]*Agent 学习 03'
 $sidebarOrderOk = $homeHtml -match 'sidebar-brand-card[\s\S]*sidebar-profile-card[\s\S]*sidebar-nav-panel'
-$navOrderOk = $homeHtml -match '<span>首页</span>[\s\S]*<span>文章</span>[\s\S]*<span>日记</span>[\s\S]*<span>系列</span>[\s\S]*<span>标签</span>[\s\S]*<span>About</span>[\s\S]*<span>RSS</span>'
+$navOrderOk = $homeHtml -match '<span>首页</span>[\s\S]*<span>文章</span>[\s\S]*<span>日记</span>[\s\S]*<span>系列</span>[\s\S]*<span>待办</span>[\s\S]*<span>标签</span>[\s\S]*<span>About</span>[\s\S]*<span>RSS</span>'
 
 $checks = @(
   @{ Name = 'home uses card-based article layout'; Ok = $homeHtml -match 'class=reading-card' },
@@ -113,6 +118,8 @@ $checks = @(
   @{ Name = 'series index page exists and lists agent learning'; Ok = $seriesHtml -match '<h1>系列</h1>' -and $seriesHtml -match 'Agent 学习' },
   @{ Name = 'tags page uses compact grid layout'; Ok = $tagsHtml -match 'taxonomy-tag-grid' -and $tagsHtml -match 'taxonomy-tag-card' },
   @{ Name = 'series index shows description for agent learning'; Ok = $seriesHtml -match 'taxonomy-series-card' -and $seriesHtml -match 'Agent 学习' -and $seriesHtml -match '基本概念、工具调用与边界设定' },
+  @{ Name = 'series detail shows description for agent learning'; Ok = $agentSeriesHtml -match '基本概念、工具调用与边界设定' },
+  @{ Name = 'todo page exists and renders in navigation'; Ok = $todoHtml -match '<h1>待办</h1>' -and $homeHtml -match '<span>待办</span>' -and $homeHtml -match 'href=/blog/todo/' },
   @{ Name = 'agent learning series page sorts entries by series order'; Ok = $agentSeriesOrderOk },
   @{ Name = 'series article shows series metadata'; Ok = $agentArticleHtml -match '系列：Agent 学习' -and $agentArticleHtml -match '第 1 篇' },
   @{ Name = 'series article shows full series list card in aside'; Ok = $agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习 01' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' -and $agentArticleHtml -match '查看系列' },

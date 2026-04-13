@@ -52,6 +52,11 @@ url = '/series/'
 weight = 40
 
 [[menu.main]]
+name = '待办'
+pageRef = '/todo'
+weight = 42
+
+[[menu.main]]
 name = '标签'
 url = '/tags/'
 weight = 45
