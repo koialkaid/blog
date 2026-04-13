@@ -27,7 +27,7 @@ term = ['HTML']
 [params]
 description = '一个纯公开、低维护、可长期书写的个人博客。'
 author = 'LY'
-homeIntro = '公开写作、短记录与日常思考'
+homeIntro = '公开写作、日记与日常思考'
 homeBlurb = '这是一份轻量、长期可维护的个人博客。内容默认全部公开，重点放在持续写作，而不是堆叠功能。'
 
 [[menu.main]]

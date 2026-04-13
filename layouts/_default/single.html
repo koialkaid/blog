@@ -5,13 +5,13 @@
     {{ if eq .Section "posts" }}
       <a class="back-link" href="{{ "posts/" | relLangURL }}">← 返回文章列表</a>
     {{ else if eq .Section "notes" }}
-      <a class="back-link" href="{{ "notes/" | relLangURL }}">← 返回短记列表</a>
+      <a class="back-link" href="{{ "notes/" | relLangURL }}">← 返回日记列表</a>
     {{ end }}
     <div class="article-page-shell{{ if not (gt (len $tocText) 0) }} no-toc{{ end }}">
       <div class="article-main">
         <header class="article-header">
           {{ if eq .Section "notes" }}
-            <p class="section-kicker">Note</p>
+            <p class="section-kicker">Diary</p>
           {{ else if eq .Section "posts" }}
             <p class="section-kicker">Post</p>
           {{ else }}

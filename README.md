@@ -32,7 +32,7 @@ http://localhost:1313/
 hugo new content posts/my-post.md
 ```
 
-短记录：
+日记：
 
 ```powershell
 hugo new content notes/my-note.md
@@ -50,7 +50,7 @@ hugo new content notes/my-note.md
 ```text
 content/
   posts/   正式文章
-  notes/   短记录
+  notes/   日记
   about/   About 页面
 ```
 
