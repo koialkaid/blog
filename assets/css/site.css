@@ -507,7 +507,7 @@ h3 {
   padding: 0.72rem 0.8rem 0.8rem;
   border: 1px solid var(--line);
   background: var(--panel-bg);
-  box-shadow: none;
+  box-shadow: var(--shadow-card);
   overflow: auto;
   scrollbar-width: thin;
 }

@@ -54,8 +54,12 @@ $postCount = if ($postCountMatch.Success) {
   0
 }
 
+$homeCardCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card')).Count
+$homeNoteCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card is-note')).Count
+
 $checks = @(
   @{ Name = 'home uses card-based article layout'; Ok = $homeHtml -match 'class=reading-card' },
+  @{ Name = 'home shows two recent entries per section'; Ok = $homeCardCount -eq 4 -and $homeNoteCount -eq 2 },
   @{ Name = 'home exposes explicit read-more action'; Ok = $homeHtml -match 'class=reading-action' },
   @{ Name = 'sidebar uses separated editorial panels'; Ok = $homeHtml -match 'sidebar-brand-card' -and $homeHtml -match 'sidebar-nav-panel' },
   @{ Name = 'home no longer renders intro card'; Ok = $homeHtml -notmatch 'Writing Index' -and $homeHtml -notmatch 'class=home-intro' },
@@ -75,7 +79,8 @@ $checks = @(
   @{ Name = 'post page toc is not rendered before body inside main flow'; Ok = $postHtml -notmatch 'article-toc-block' },
   @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -match 'article-page-shell' },
   @{ Name = 'toc aside uses sticky positioning'; Ok = $cssText -match '\.article-toc-aside\{[^}]*position:sticky[^}]*top:[^;}]+[^}]*' },
-  @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-toc-card\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' }
+  @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-toc-card\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' },
+  @{ Name = 'toc card keeps visible card shadow'; Ok = $cssText -match '\.article-toc-card\{[^}]*box-shadow:var\(--shadow-card\)' }
 )
 
 $failed = $checks | Where-Object { -not $_.Ok }

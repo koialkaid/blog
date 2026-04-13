@@ -11,7 +11,7 @@
       <p><a href="{{ "posts/" | relLangURL }}">查看全部文章</a></p>
     </div>
     <div class="writing-list">
-      {{ range first 3 $recentPosts }}
+      {{ range first 2 $recentPosts }}
         {{ partial "post-card.html" . }}
       {{ else }}
         <div class="empty-state">这里还没有正式文章。</div>
@@ -28,7 +28,7 @@
       <p><a href="{{ "notes/" | relLangURL }}">查看全部短记</a></p>
     </div>
     <div class="writing-list">
-      {{ range first 3 $recentNotes }}
+      {{ range first 2 $recentNotes }}
         {{ partial "post-card.html" . }}
       {{ else }}
         <div class="empty-state">这里还没有短记录。</div>
