@@ -117,6 +117,7 @@ $checks = @(
   @{ Name = 'toc and series cards keep visible card shadow'; Ok = $cssText -match '\.article-toc-card,\s*\.series-reading-card\{[^}]*box-shadow:var\(--shadow-card\)' },
   @{ Name = 'series index page exists and lists agent learning'; Ok = $seriesHtml -match '<h1>系列</h1>' -and $seriesHtml -match 'Agent 学习' },
   @{ Name = 'tags page uses compact grid layout'; Ok = $tagsHtml -match 'taxonomy-tag-grid' -and $tagsHtml -match 'taxonomy-tag-card' },
+  @{ Name = 'tags page uses single-layer tag cards'; Ok = $cssText -match '\.taxonomy-tag-card\{[^}]*border:0[^}]*background:(?:transparent|0 0)[^}]*box-shadow:none' -and $cssText -match '\.taxonomy-tag-card \.tag-pill\{[^}]*box-shadow:var\(--shadow-card\)|\.taxonomy-tag-card\.tag-pill\{[^}]*box-shadow:var\(--shadow-card\)' },
   @{ Name = 'series index shows description for agent learning'; Ok = $seriesHtml -match 'taxonomy-series-card' -and $seriesHtml -match 'Agent 学习' -and $seriesHtml -match '基本概念、工具调用与边界设定' },
   @{ Name = 'series detail shows description for agent learning'; Ok = $agentSeriesHtml -match '基本概念、工具调用与边界设定' },
   @{ Name = 'todo page exists and renders in navigation'; Ok = $todoHtml -match '<h1>待办</h1>' -and $homeHtml -match '<span>待办</span>' -and $homeHtml -match 'href=/blog/todo/' },

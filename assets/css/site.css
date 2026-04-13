@@ -24,7 +24,7 @@
   --brand-end: #000000;
   --brand-top-glow: rgba(255, 255, 255, 0.04);
   --brand-border: rgba(255, 255, 255, 0.08);
-  --brand-shadow: 10px 10px 0 rgba(0, 0, 0, 0.12);
+  --brand-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
   --code-bg: rgba(0, 0, 0, 0.05);
   --pre-bg: #f7f7f7;
   --empty-bg: rgba(255, 255, 255, 0.75);
@@ -63,7 +63,7 @@ html[data-theme="dark"] {
   --brand-end: #0d0d0d;
   --brand-top-glow: rgba(255, 255, 255, 0.02);
   --brand-border: rgba(255, 255, 255, 0.1);
-  --brand-shadow: 10px 10px 0 rgba(0, 0, 0, 0.28);
+  --brand-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
   --code-bg: rgba(255, 255, 255, 0.06);
   --pre-bg: #202020;
   --empty-bg: rgba(255, 255, 255, 0.04);
@@ -794,12 +794,23 @@ h3 {
 }
 
 .taxonomy-tag-card {
-  padding: 0.85rem 0.95rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .taxonomy-card .tag-pill {
   width: 100%;
   justify-content: space-between;
+}
+
+.taxonomy-tag-card .tag-pill {
+  min-height: 3.05rem;
+  padding: 0.78rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow-card);
 }
 
 .taxonomy-series-list {
