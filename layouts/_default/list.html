@@ -4,10 +4,21 @@
     {{ $pages = .Pages }}
   {{ end }}
   {{ $sortedPages := $pages.ByDate.Reverse }}
+  {{ if and (eq .Kind "term") (eq .Data.Singular "series") }}
+    {{ $sortedPages = sort $pages "Params.series_order" "asc" }}
+  {{ end }}
   {{ $paginator := .Paginate $sortedPages }}
 
   <section class="page-header">
     {{ if eq .Kind "taxonomy" }}
+      {{ if eq .Data.Singular "series" }}
+        <p class="section-kicker">Series</p>
+      {{ else }}
+        <p class="section-kicker">Tag</p>
+      {{ end }}
+    {{ else if and (eq .Kind "term") (eq .Data.Singular "series") }}
+      <p class="section-kicker">Series</p>
+    {{ else if eq .Kind "term" }}
       <p class="section-kicker">Tag</p>
     {{ else if eq .Section "notes" }}
       <p class="section-kicker">Diary</p>

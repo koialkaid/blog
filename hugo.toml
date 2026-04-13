@@ -12,6 +12,7 @@ pagerSize = 8
 
 [taxonomies]
 tag = 'tags'
+series = 'series'
 
 [outputs]
 home = ['HTML', 'RSS']
@@ -49,6 +50,11 @@ weight = 30
 name = '标签'
 url = '/tags/'
 weight = 40
+
+[[menu.main]]
+name = '系列'
+url = '/series/'
+weight = 45
 
 [[menu.main]]
 name = 'About'

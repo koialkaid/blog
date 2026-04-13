@@ -24,6 +24,24 @@ $notesHtml = Get-Content -Path (Join-Path $outputDir 'notes\index.html') -Raw
 $tagsHtml = Get-Content -Path (Join-Path $outputDir 'tags\index.html') -Raw
 $aboutHtml = Get-Content -Path (Join-Path $outputDir 'about\index.html') -Raw
 $postHtml = Get-Content -Path (Join-Path $outputDir 'posts\welcome-to-my-blog\index.html') -Raw
+$seriesHtml = if (Test-Path (Join-Path $outputDir 'series\index.html')) {
+  Get-Content -Path (Join-Path $outputDir 'series\index.html') -Raw
+} else {
+  ''
+}
+$seriesDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'series') -Directory -ErrorAction SilentlyContinue |
+  Where-Object { $_.Name -notin @('page') } |
+  Select-Object -First 1
+$agentSeriesHtml = if ($seriesDetailFile -and (Test-Path (Join-Path $seriesDetailFile.FullName 'index.html'))) {
+  Get-Content -Path (Join-Path $seriesDetailFile.FullName 'index.html') -Raw
+} else {
+  ''
+}
+$agentArticleHtml = if (Test-Path (Join-Path $outputDir 'posts\agent-learning-01-what-is-agent\index.html')) {
+  Get-Content -Path (Join-Path $outputDir 'posts\agent-learning-01-what-is-agent\index.html') -Raw
+} else {
+  ''
+}
 $cssFile = Get-ChildItem -Path (Join-Path $outputDir 'css') -Filter 'site*.css' | Select-Object -First 1
 $cssText = if ($cssFile) { Get-Content -Path $cssFile.FullName -Raw } else { '' }
 $tagDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'tags') -Directory |
@@ -60,6 +78,7 @@ $postCount = if ($postCountMatch.Success) {
 
 $homeCardCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card')).Count
 $homeNoteCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card is-note')).Count
+$agentSeriesOrderOk = $agentSeriesHtml -match 'Agent 学习 01[\s\S]*Agent 学习 02[\s\S]*Agent 学习 03'
 
 $checks = @(
   @{ Name = 'home uses card-based article layout'; Ok = $homeHtml -match 'class=reading-card' },
@@ -86,7 +105,12 @@ $checks = @(
   @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -match 'article-page-shell' },
   @{ Name = 'toc aside uses sticky positioning'; Ok = $cssText -match '\.article-toc-aside\{[^}]*position:sticky[^}]*top:[^;}]+[^}]*' },
   @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-toc-card\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' },
-  @{ Name = 'toc card keeps visible card shadow'; Ok = $cssText -match '\.article-toc-card\{[^}]*box-shadow:var\(--shadow-card\)' }
+  @{ Name = 'toc card keeps visible card shadow'; Ok = $cssText -match '\.article-toc-card\{[^}]*box-shadow:var\(--shadow-card\)' },
+  @{ Name = 'series index page exists and lists agent learning'; Ok = $seriesHtml -match '<h1>系列</h1>' -and $seriesHtml -match 'Agent 学习' },
+  @{ Name = 'agent learning series page sorts entries by series order'; Ok = $agentSeriesOrderOk },
+  @{ Name = 'series article shows series metadata'; Ok = $agentArticleHtml -match '系列：Agent 学习' -and $agentArticleHtml -match '第 1 篇' },
+  @{ Name = 'series article shows same-series reading block'; Ok = $agentArticleHtml -match '同系列阅读' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' },
+  @{ Name = 'non-series article does not render series block'; Ok = $postHtml -notmatch '同系列阅读' -and $postHtml -notmatch '系列：' }
 )
 
 $failed = $checks | Where-Object { -not $_.Ok }

@@ -6,6 +6,13 @@
   </div>
   <h3 class="writing-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
   <p class="writing-summary">{{ .Description | default (.Summary | plainify | truncate 140) }}</p>
+  {{ with .Params.series }}
+    <p class="series-inline">
+      {{ $seriesName := index . 0 }}
+      <a href="{{ printf "series/%s/" ($seriesName | urlize) | relLangURL }}">系列：{{ $seriesName }}</a>
+      {{ with $.Params.series_order }}<span>第 {{ . }} 篇</span>{{ end }}
+    </p>
+  {{ end }}
   <div class="reading-card-footer">
     {{ with .Params.tags }}
       <ul class="tag-list">

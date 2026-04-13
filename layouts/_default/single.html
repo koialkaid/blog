@@ -1,6 +1,14 @@
 {{ define "main" }}
   {{ $toc := .TableOfContents }}
   {{ $tocText := $toc | plainify | trim " \n\r\t" }}
+  {{ $seriesName := "" }}
+  {{ with .Params.series }}
+    {{ $seriesName = index . 0 }}
+  {{ end }}
+  {{ $seriesPages := slice }}
+  {{ if $seriesName }}
+    {{ $seriesPages = sort (where (where .Site.RegularPages "Section" "posts") "Params.series" "intersect" (slice $seriesName)) "Params.series_order" "asc" }}
+  {{ end }}
   <article class="article-page">
     {{ if eq .Section "posts" }}
       <a class="back-link" href="{{ "posts/" | relLangURL }}">← 返回文章列表</a>
@@ -28,6 +36,14 @@
               <p>{{ . }}</p>
             </div>
           {{ end }}
+          {{ if $seriesName }}
+            <div class="article-series-meta">
+              <a href="{{ printf "series/%s/" ($seriesName | urlize) | relLangURL }}">系列：{{ $seriesName }}</a>
+              {{ with .Params.series_order }}
+                <span>第 {{ . }} 篇</span>
+              {{ end }}
+            </div>
+          {{ end }}
           {{ with .Params.tags }}
             <ul class="tag-list">
               {{ range . }}
@@ -39,6 +55,22 @@
         <div class="article-body">
           {{ .Content }}
         </div>
+        {{ if gt (len $seriesPages) 0 }}
+          <section class="series-reading">
+            <p class="section-kicker">Series</p>
+            <h2>同系列阅读：{{ $seriesName }}</h2>
+            <ol class="series-reading-list">
+              {{ range $seriesPages }}
+                <li{{ if eq .RelPermalink $.RelPermalink }} class="is-current"{{ end }}>
+                  <a href="{{ .RelPermalink }}">
+                    {{ with .Params.series_order }}<span>第 {{ . }} 篇</span>{{ end }}
+                    <strong>{{ .Title }}</strong>
+                  </a>
+                </li>
+              {{ end }}
+            </ol>
+          </section>
+        {{ end }}
       </div>
       {{ if gt (len $tocText) 0 }}
         <aside class="article-toc-aside" aria-label="文章目录">

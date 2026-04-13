@@ -1,7 +1,12 @@
 {{ define "main" }}
   <section class="page-header">
-    <p class="section-kicker">Browse Tags</p>
-    <h1>{{ .Title }}</h1>
+    {{ if eq .Data.Singular "series" }}
+      <p class="section-kicker">Browse Series</p>
+      <h1>系列</h1>
+    {{ else }}
+      <p class="section-kicker">Browse Tags</p>
+      <h1>{{ .Title }}</h1>
+    {{ end }}
   </section>
 
   <section class="taxonomy-section">
