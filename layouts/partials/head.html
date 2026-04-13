@@ -1,6 +1,13 @@
 {{- $title := cond .IsHome .Site.Title (printf "%s | %s" .Title .Site.Title) -}}
 {{- $rawDescription := .Description | default .Params.description | default (.Summary | plainify) | default .Site.Params.description -}}
 {{- $description := $rawDescription | truncate 160 -}}
+{{- $defaultSocialImage := "og-default.svg" | absURL -}}
+{{- $socialImage := $defaultSocialImage -}}
+{{- with .Params.images -}}
+  {{- with index . 0 -}}
+    {{- $socialImage = . | absURL -}}
+  {{- end -}}
+{{- end -}}
 <!DOCTYPE html>
 <html lang="{{ .Site.Language.Lang | default "zh-cn" }}" data-theme="light">
 <head>
@@ -30,9 +37,12 @@
   <meta property="og:description" content="{{ $description }}">
   <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
   <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:image" content="{{ $socialImage }}">
+  <meta property="og:image:alt" content="{{ $title }}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ $title }}">
   <meta name="twitter:description" content="{{ $description }}">
+  <meta name="twitter:image" content="{{ $socialImage }}">
   {{ with resources.Get "css/site.css" }}
     {{ $style := . | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">

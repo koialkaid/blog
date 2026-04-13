@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Koi's Blog 分享图">
+  <rect width="1200" height="630" fill="#f3f3f3"/>
+  <rect x="70" y="70" width="1060" height="490" fill="#ffffff" stroke="#111111" stroke-width="12"/>
+  <rect x="110" y="110" width="220" height="54" fill="#111111"/>
+  <text x="110" y="286" fill="#111111" font-size="86" font-family="Georgia, 'Times New Roman', serif">Koi's Blog</text>
+  <line x1="112" y1="332" x2="1084" y2="332" stroke="#1c1c1c" stroke-width="8"/>
+  <text x="112" y="392" fill="#5b5b5b" font-size="34" font-family="'Noto Serif SC', Georgia, serif">Public writing, notes, and a quiet archive.</text>
+  <text x="112" y="450" fill="#5b5b5b" font-size="26" font-family="'Noto Serif SC', Georgia, serif">Monochrome editorial blog built with Hugo.</text>
+</svg>

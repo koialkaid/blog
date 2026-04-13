@@ -229,18 +229,18 @@ blockquote {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.8rem;
-  padding: 0.6rem 0.72rem;
-  border: 1px solid var(--line);
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  border: 0;
   border-radius: 0;
-  background: var(--button-bg);
+  background: transparent;
   color: var(--ink);
   font: inherit;
   cursor: pointer;
 }
 
 .theme-toggle:hover {
-  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .theme-toggle:focus-visible {
@@ -251,18 +251,24 @@ blockquote {
 .theme-toggle-label {
   color: var(--muted);
   font-size: 0.74rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .theme-toggle-state {
-  color: var(--ink);
-  font-size: 0.8rem;
+  margin-left: auto;
+  padding-left: 0.65rem;
+  border-left: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
 }
 
 .theme-toggle[aria-pressed="true"] {
-  border-color: var(--line-strong);
-  background: var(--overlay-medium);
+  background: transparent;
+}
+
+.theme-toggle[aria-pressed="true"] .theme-toggle-state {
+  color: var(--ink);
 }
 
 .site-content {
@@ -491,31 +497,33 @@ h3 {
 
 .article-toc-aside {
   position: sticky;
-  top: 2rem;
+  top: 1.85rem;
   align-self: start;
 }
 
 .article-toc-card {
-  max-width: 14rem;
+  max-width: 13.5rem;
   max-height: calc(100vh - 4rem);
-  padding: 0.9rem 0.95rem 0.95rem;
+  padding: 0.72rem 0.8rem 0.8rem;
   border: 1px solid var(--line);
   background: var(--panel-bg);
+  box-shadow: none;
   overflow: auto;
+  scrollbar-width: thin;
 }
 
 .article-toc-content nav ul {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.32rem;
   padding-left: 0;
   margin: 0;
   list-style: none;
 }
 
 .article-toc-content nav ul ul {
-  margin-top: 0.35rem;
-  margin-left: 0.35rem;
-  padding-left: 0.85rem;
+  margin-top: 0.28rem;
+  margin-left: 0.3rem;
+  padding-left: 0.7rem;
   border-left: 1px solid var(--line);
 }
 
@@ -525,7 +533,8 @@ h3 {
 
 .article-toc-content a {
   color: var(--muted);
-  line-height: 1.55;
+  font-size: 0.84rem;
+  line-height: 1.48;
 }
 
 .article-toc-content a:hover {

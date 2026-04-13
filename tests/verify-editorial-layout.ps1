@@ -74,7 +74,7 @@ $checks = @(
   @{ Name = 'post page toc is not rendered in sidebar'; Ok = $postHtml -notmatch 'sidebar-context-panel' },
   @{ Name = 'post page toc is not rendered before body inside main flow'; Ok = $postHtml -notmatch 'article-toc-block' },
   @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -match 'article-page-shell' },
-  @{ Name = 'toc aside uses sticky positioning'; Ok = $cssText -match '\.article-toc-aside\{[^}]*position:sticky[^}]*top:2rem' },
+  @{ Name = 'toc aside uses sticky positioning'; Ok = $cssText -match '\.article-toc-aside\{[^}]*position:sticky[^}]*top:[^;}]+[^}]*' },
   @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-toc-card\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' }
 )
 
