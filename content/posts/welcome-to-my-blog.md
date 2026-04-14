@@ -3,7 +3,7 @@ title = '重新开始写一点公开的东西'
 date = '2026-04-09T16:20:00+08:00'
 description = '这是重新开站后的第一篇正式文章：为什么还想保留一个公开博客，以及我希望以后怎么把它慢慢写下去。'
 tags = ['博客', '写作', '开始', '公开写作']
-images = ['posts/welcome-to-my-blog/writing-space.svg']
+images = ['posts/welcome-to-my-blog-writing-space.svg']
 +++
 
 重新开始写博客这件事，放在今天并不算一件多新鲜的事。好像每隔一段时间，就会有人重新搭一个站点，写一篇开站文章，试着把散在聊天框、收藏夹和备忘录里的东西重新收回来。
@@ -12,7 +12,7 @@ images = ['posts/welcome-to-my-blog/writing-space.svg']
 
 不是因为不喜欢折腾，而是越来越觉得，真正决定一个博客能不能长期留下来的，往往不是功能堆得有多满，而是它够不够轻，够不够安静，够不够让人愿意一遍又一遍打开它。
 
-![一张简洁的黑白写作配图](writing-space.svg)
+![一张简洁的黑白写作配图](../welcome-to-my-blog-writing-space.svg)
 
 ## 为什么还是想保留一个博客
 

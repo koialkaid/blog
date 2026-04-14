@@ -3,14 +3,14 @@ title = '把工具做简单以后，反而更愿意写'
 date = '2026-04-12T10:30:00+08:00'
 description = '工具不是越多越好。很多时候，把写作环境做得更简单，反而更容易持续写下去。'
 tags = ['工具', '写作', '静态站点']
-images = ['posts/tools-should-disappear-before-writing/quiet-desk.svg']
+images = ['posts/tools-should-disappear-before-writing-quiet-desk.svg']
 +++
 
 我以前总以为，影响写作效率的主要是“工具够不够强”。
 
 后来慢慢发现，很多时候真正影响写作意愿的，反而是工具感太强。你一打开就要想配置、想功能、想以后怎么扩展，结果真正要写的内容还没开始，注意力已经先散掉了。
 
-![一张更克制的写作台面配图](quiet-desk.svg)
+![一张更克制的写作台面配图](../tools-should-disappear-before-writing-quiet-desk.svg)
 
 ## 复杂很多时候只是分心
 

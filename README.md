@@ -106,6 +106,28 @@ hugo --gc --minify --cleanDestinationDir
 public/
 ```
 
+## 在线写作后台
+
+这个仓库现在已经接入了 Pages CMS，适合继续保持 `Hugo + GitHub Pages` 的静态发布方式，同时把内容直接回写到 Git 仓库。
+
+后台入口：
+
+```text
+https://koialkaid.github.io/blog/admin/
+```
+
+第一次使用需要做一次 GitHub 侧授权：
+
+1. 以仓库所有者身份打开上面的后台入口
+2. 按照 [Pages CMS 官方 GitHub App 指引](https://pagescms.org/docs/guides/installing/github-app/)安装它的 GitHub App，并授权 `koialkaid/blog`
+3. 之后就可以在后台里新建或编辑：
+   - `文章` 对应 `content/posts/`
+   - `日记` 对应 `content/notes/`
+   - `About` 对应 `content/about/index.md`
+   - `待办` 对应 `content/todo/index.md`
+
+内容模型配置文件在仓库根目录的 `.pages.yml`。保存后会直接提交到仓库，现有 GitHub Actions workflow 会继续负责构建和发布。
+
 ## 以后如果要绑定域名
 
 等博客已经稳定发布后，再做自定义域名绑定：
