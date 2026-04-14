@@ -338,13 +338,14 @@ blockquote {
   justify-content: center;
   width: 0.64rem;
   height: 0.64rem;
-  border: 1px solid var(--ink);
-  background: var(--ink);
+  border: 1px solid var(--line-strong);
+  background: var(--overlay-quiet);
   color: transparent;
 }
 
 .profile-admin-link:hover {
-  background: var(--paper-strong);
+  background: var(--overlay-quiet);
+  border-color: var(--line-strong);
 }
 
 .profile-admin-link:focus-visible {
