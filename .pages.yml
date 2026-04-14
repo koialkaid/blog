@@ -33,9 +33,7 @@ content:
     label: 文章
     type: collection
     path: content/posts
-    filename:
-      template: "{primary}.md"
-      field: create
+    filename: "{slug}.md"
     format: toml-frontmatter
     subfolders: false
     exclude:
@@ -64,6 +62,14 @@ content:
         label: 标题
         type: string
         required: true
+      - name: slug
+        label: 文件名 Slug
+        description: 用于生成文章文件名和 URL，例如 agent-learning-04-example。
+        type: string
+        required: true
+        pattern:
+          regex: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          message: 只允许小写字母、数字和连字符。
       - name: date
         label: 发布时间
         type: date
@@ -103,9 +109,7 @@ content:
     label: 日记
     type: collection
     path: content/notes
-    filename:
-      template: "{primary}.md"
-      field: create
+    filename: "{slug}.md"
     format: toml-frontmatter
     subfolders: false
     exclude:
@@ -131,6 +135,14 @@ content:
         label: 标题
         type: string
         required: true
+      - name: slug
+        label: 文件名 Slug
+        description: 用于生成日记文件名和 URL，例如 a-quiet-entry。
+        type: string
+        required: true
+        pattern:
+          regex: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          message: 只允许小写字母、数字和连字符。
       - name: date
         label: 发布时间
         type: date
