@@ -1,27 +1,27 @@
 media:
   - name: posts_media
-    label: Post Media
+    label: 文章图片
     input: static/posts
     output: ..
     categories:
       - image
     rename: safe
   - name: notes_media
-    label: Note Media
+    label: 日记图片
     input: static/notes
     output: ..
     categories:
       - image
     rename: safe
   - name: about_media
-    label: About Media
+    label: About 图片
     input: static/about
     output: ../about
     categories:
       - image
     rename: safe
   - name: todo_media
-    label: Todo Media
+    label: 待办图片
     input: static/todo
     output: ../todo
     categories:

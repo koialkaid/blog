@@ -1,50 +1,236 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Koi's Blog CMS</title>
-  <meta http-equiv="refresh" content="0; url=https://app.pagescms.org/koialkaid/blog/main">
+  <title>Koi's Blog 写作后台</title>
   <link rel="canonical" href="https://app.pagescms.org/koialkaid/blog/main">
-  <script>
-    window.location.replace("https://app.pagescms.org/koialkaid/blog/main");
-  </script>
   <style>
+    :root {
+      --bg: #f3f3f3;
+      --paper: #ffffff;
+      --ink: #050505;
+      --muted: #646464;
+      --line: #d8d8d8;
+      --line-strong: #a8a8a8;
+      --shadow: 6px 6px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      background: #f3f3f3;
-      color: #111;
-      font: 16px/1.6 "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 0, rgba(255, 255, 255, 0.95), transparent 28%),
+        linear-gradient(180deg, #fafafa 0%, var(--bg) 100%);
+      font-family: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      line-height: 1.72;
     }
 
-    main {
-      width: min(100% - 2rem, 34rem);
-      padding: 1.5rem;
-      border: 1px solid #d8d8d8;
-      background: #fff;
-      box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.05);
+    a {
+      color: inherit;
+    }
+
+    .admin-frame {
+      width: min(calc(100% - 2.2rem), 980px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 2.2rem 0 2.8rem;
+      display: grid;
+      align-content: center;
+      gap: 1rem;
+    }
+
+    .brand-card,
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .brand-card {
+      padding: 1.1rem 1.25rem;
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.08);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 35%),
+        linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+    }
+
+    .brand-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .brand-card h1 {
+      margin: 0.12rem 0 0;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      font-weight: 600;
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.75fr);
+      gap: 1rem;
+    }
+
+    .panel {
+      padding: 1.15rem 1.25rem 1.25rem;
+    }
+
+    .kicker {
+      margin: 0 0 0.8rem;
+      color: var(--ink);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.28rem, 3vw, 2.1rem);
+      font-weight: 600;
+      line-height: 1.16;
+      letter-spacing: -0.045em;
     }
 
     p {
       margin: 0;
     }
 
+    h2 + p,
     p + p {
       margin-top: 0.75rem;
     }
 
-    a {
-      color: inherit;
+    .muted {
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.25rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.7rem;
+      padding: 0.62rem 0.95rem;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .button:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .guide {
+      display: grid;
+      gap: 0.7rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .guide li {
+      padding-top: 0.7rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .guide strong {
+      display: block;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    code {
+      padding: 0.12rem 0.35rem;
+      background: rgba(0, 0, 0, 0.05);
+      font-size: 0.92em;
+    }
+
+    .note {
+      padding-top: 0.9rem;
+      margin-top: 0.95rem;
+      border-top: 1px solid var(--line-strong);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 760px) {
+      .admin-frame {
+        width: min(calc(100% - 1.1rem), 640px);
+        padding-top: 1rem;
+      }
+
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-card,
+      .panel {
+        padding-left: 1.05rem;
+        padding-right: 1.05rem;
+      }
+
+      .button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <p>Redirecting to the writing backend...</p>
-    <p>If you are not redirected, open <a href="https://app.pagescms.org/koialkaid/blog/main">Pages CMS</a>.</p>
+  <main class="admin-frame">
+    <section class="brand-card" aria-label="Koi's Blog">
+      <p>Writing Console</p>
+      <h1>Koi's Blog</h1>
+    </section>
+
+    <div class="shell">
+      <section class="panel">
+        <p class="kicker">CMS 后台</p>
+        <h2>从这里进入写作后台</h2>
+        <p class="muted">后台由 Pages CMS 提供，内容会直接保存到 GitHub 仓库，再由 GitHub Actions 自动发布到博客。</p>
+        <p class="muted">里面有少量系统按钮还是英文，但文章、日记、About、待办和字段说明已经尽量中文化。</p>
+        <div class="actions">
+          <a class="button" href="https://app.pagescms.org/koialkaid/blog/main">进入 Pages CMS</a>
+          <a class="button secondary" href="/blog/">返回博客首页</a>
+        </div>
+        <p class="note">只有拥有仓库写入权限的 GitHub 账号才能保存和发布内容。</p>
+      </section>
+
+      <aside class="panel" aria-label="写作提示">
+        <p class="kicker">写作提示</p>
+        <ul class="guide">
+          <li><strong>正式文章</strong>点击左侧 <code>文章</code>，新建或编辑长一点的内容。</li>
+          <li><strong>日记</strong>点击左侧 <code>日记</code>，写短记录，路径仍然是 <code>/notes/</code>。</li>
+          <li><strong>文件名</strong>新建文章或日记时，用英文短横线并保留 <code>.md</code>，例如 <code>quiet-note.md</code>。</li>
+          <li><strong>系列</strong>系列文章填写 <code>系列</code> 和 <code>系列顺序</code>，普通文章留空。</li>
+        </ul>
+      </aside>
+    </div>
   </main>
 </body>
 </html>

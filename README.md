@@ -116,6 +116,8 @@ public/
 https://koialkaid.github.io/blog/admin/
 ```
 
+`/admin/` 是中文写作入口页；进入 Pages CMS 后，内容集合、字段和媒体标签已尽量中文化，但托管版 Pages CMS 的部分系统按钮仍会显示英文。
+
 第一次使用需要做一次 GitHub 侧授权：
 
 1. 以仓库所有者身份打开上面的后台入口
