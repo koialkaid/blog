@@ -126,6 +126,14 @@ https://koialkaid.github.io/blog/admin/
    - `About` 对应 `content/about/index.md`
    - `待办` 对应 `content/todo/index.md`
 
+新建 `文章` 或 `日记` 时，后台会出现一个文件名字段。建议用小写英文、数字和短横线，并保留 `.md` 后缀，例如：
+
+```text
+agent-learning-04-context.md
+```
+
+发布后尽量不要随意改文件名，因为文件名会影响文章 URL。
+
 内容模型配置文件在仓库根目录的 `.pages.yml`。保存后会直接提交到仓库，现有 GitHub Actions workflow 会继续负责构建和发布。
 
 ## 以后如果要绑定域名
