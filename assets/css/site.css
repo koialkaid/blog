@@ -336,19 +336,15 @@ blockquote {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 2.08rem;
-  padding: 0.35rem 0.55rem;
+  width: 0.64rem;
+  height: 0.64rem;
   border: 1px solid var(--ink);
-  background: var(--paper-strong);
-  color: var(--ink);
-  font-size: 0.72rem;
-  line-height: 1;
-  white-space: nowrap;
+  background: var(--ink);
+  color: transparent;
 }
 
 .profile-admin-link:hover {
-  background: var(--accent-soft);
-  color: var(--ink);
+  background: var(--paper-strong);
 }
 
 .profile-admin-link:focus-visible {

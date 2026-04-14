@@ -97,7 +97,7 @@ $checks = @(
   @{ Name = 'sidebar nav orders series before tags'; Ok = $navOrderOk },
   @{ Name = 'sidebar cards use sidebar shadow matching content cards'; Ok = $cssText -match '--shadow-card:6px 6px 0' -and $cssText -match '--sidebar-shadow:6px 6px 0' -and $cssText -match '\.sidebar-brand-card,\.sidebar-nav-panel,\.sidebar-profile-card\{[^}]*box-shadow:var\(--sidebar-shadow\)' },
   @{ Name = 'sidebar renders personal profile card'; Ok = ($themePages | Where-Object { $_ -match 'sidebar-profile-card' -and $_ -match 'profile-main' -and $_ -match 'profile-links' -and $_ -match '>koi<' -and $_ -match 'https://linux.do/u/koi_alkaid/summary' -and $_ -match 'profile/avatar.jpg' }).Count -eq $themePages.Count },
-  @{ Name = 'profile card exposes CMS entry button'; Ok = ($themePages | Where-Object { $_ -match 'profile-admin-link' -and $_ -match 'href=/blog/admin/' -and $_ -match '>写作后台<' }).Count -eq $themePages.Count },
+  @{ Name = 'profile card exposes CMS entry button'; Ok = ($themePages | Where-Object { $_ -match 'profile-admin-link' -and $_ -match 'href=/blog/admin/' -and $_ -match 'aria-label=进入写作后台' }).Count -eq $themePages.Count },
   @{ Name = 'home no longer renders intro card'; Ok = $homeHtml -notmatch 'Writing Index' -and $homeHtml -notmatch 'class=home-intro' },
   @{ Name = 'home no longer renders writing note panel'; Ok = $homeHtml -notmatch 'Writing Note' -and $homeHtml -notmatch 'sidebar-context-panel' },
   @{ Name = 'brand block keeps only the new site title'; Ok = $homeHtml -match "Koi&#39;s Blog|Koi's Blog" -and $homeHtml -notmatch $oldHomeIntro },
