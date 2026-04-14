@@ -293,7 +293,7 @@ blockquote {
 
 .profile-main {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   column-gap: 0.82rem;
 }
@@ -329,6 +329,31 @@ blockquote {
   font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.02em;
+}
+
+.profile-admin-link {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.08rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--ink);
+  background: var(--paper-strong);
+  color: var(--ink);
+  font-size: 0.72rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.profile-admin-link:hover {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+.profile-admin-link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }
 
 .profile-links {
