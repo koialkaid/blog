@@ -113,10 +113,10 @@ public/
 后台入口：
 
 ```text
-https://koialkaid.github.io/blog/admin/
+https://app.pagescms.org/koialkaid/blog/main
 ```
 
-`/admin/` 是中文写作入口页；进入 Pages CMS 后，内容集合、字段和媒体标签已尽量中文化，但托管版 Pages CMS 的部分系统按钮仍会显示英文。
+博客首页左侧个人卡片里的小入口也会直接跳到这个地址。进入 Pages CMS 后，内容集合、字段和媒体标签已尽量中文化，但托管版 Pages CMS 的部分系统按钮仍会显示英文。
 
 第一次使用需要做一次 GitHub 侧授权：
 
