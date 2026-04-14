@@ -33,7 +33,7 @@ content:
     label: 文章
     type: collection
     path: content/posts
-    filename: "{slug}.md"
+    filename: "{fields.slug}.md"
     format: toml-frontmatter
     subfolders: false
     exclude:
@@ -109,7 +109,7 @@ content:
     label: 日记
     type: collection
     path: content/notes
-    filename: "{slug}.md"
+    filename: "{fields.slug}.md"
     format: toml-frontmatter
     subfolders: false
     exclude:
@@ -212,3 +212,4 @@ content:
 
 settings:
   config: false
+  cache: true

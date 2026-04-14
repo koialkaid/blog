@@ -134,7 +134,7 @@ https://app.pagescms.org/koialkaid/blog/main
 agent-learning-04-context
 ```
 
-保存后后台会自动生成对应的 `.md` 文件。发布后尽量不要随意改 slug，因为它会影响文章 URL。
+保存后后台会自动按 `slug` 生成对应的 `.md` 文件。发布后尽量不要随意改 slug，因为它会影响文章 URL。
 
 内容模型配置文件在仓库根目录的 `.pages.yml`。保存后会直接提交到仓库，现有 GitHub Actions workflow 会继续负责构建和发布。
 
