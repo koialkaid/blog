@@ -75,8 +75,7 @@ content:
         type: date
         required: true
         options:
-          time: true
-          format: "yyyy-MM-dd'T'HH:mm:ss"
+          format: "yyyy-MM-dd"
       - name: description
         label: 摘要
         type: text
@@ -148,8 +147,7 @@ content:
         type: date
         required: true
         options:
-          time: true
-          format: "yyyy-MM-dd'T'HH:mm:ss"
+          format: "yyyy-MM-dd"
       - name: description
         label: 摘要
         type: text
