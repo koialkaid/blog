@@ -19,7 +19,7 @@
   --overlay-muted: rgba(0, 0, 0, 0.55);
   --shadow-soft: 8px 8px 0 rgba(0, 0, 0, 0.04);
   --shadow-card: 6px 6px 0 rgba(0, 0, 0, 0.05);
-  --sidebar-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  --sidebar-shadow: 4px 4px 0 rgba(0, 0, 0, 0.045);
   --brand-ink: #ffffff;
   --brand-start: #1a1a1a;
   --brand-end: #000000;
@@ -59,7 +59,7 @@ html[data-theme="dark"] {
   --overlay-muted: rgba(255, 255, 255, 0.5);
   --shadow-soft: 8px 8px 0 rgba(0, 0, 0, 0.26);
   --shadow-card: 6px 6px 0 rgba(0, 0, 0, 0.3);
-  --sidebar-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+  --sidebar-shadow: 4px 4px 0 rgba(0, 0, 0, 0.22);
   --brand-ink: #f8f8f8;
   --brand-start: #161616;
   --brand-end: #0d0d0d;

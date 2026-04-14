@@ -95,7 +95,7 @@ $checks = @(
   @{ Name = 'sidebar uses separated editorial panels'; Ok = $homeHtml -match 'sidebar-brand-card' -and $homeHtml -match 'sidebar-nav-panel' },
   @{ Name = 'profile card is placed between brand and nav'; Ok = $sidebarOrderOk },
   @{ Name = 'sidebar nav orders series before tags'; Ok = $navOrderOk },
-  @{ Name = 'sidebar cards use reduced sidebar shadow'; Ok = $cssText -match '--sidebar-shadow:0 1px 0' -and $cssText -match '\.sidebar-brand-card,\.sidebar-nav-panel,\.sidebar-profile-card\{[^}]*box-shadow:var\(--sidebar-shadow\)' },
+  @{ Name = 'sidebar cards use visible sidebar shadow'; Ok = $cssText -match '--sidebar-shadow:4px 4px 0' -and $cssText -notmatch '--sidebar-shadow:0 1px 0' -and $cssText -match '\.sidebar-brand-card,\.sidebar-nav-panel,\.sidebar-profile-card\{[^}]*box-shadow:var\(--sidebar-shadow\)' },
   @{ Name = 'sidebar renders personal profile card'; Ok = ($themePages | Where-Object { $_ -match 'sidebar-profile-card' -and $_ -match 'profile-main' -and $_ -match 'profile-links' -and $_ -match '>koi<' -and $_ -match 'https://linux.do/u/koi_alkaid/summary' -and $_ -match 'profile/avatar.jpg' }).Count -eq $themePages.Count },
   @{ Name = 'home no longer renders intro card'; Ok = $homeHtml -notmatch 'Writing Index' -and $homeHtml -notmatch 'class=home-intro' },
   @{ Name = 'home no longer renders writing note panel'; Ok = $homeHtml -notmatch 'Writing Note' -and $homeHtml -notmatch 'sidebar-context-panel' },
