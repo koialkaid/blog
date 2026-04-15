@@ -16,6 +16,12 @@ description = '关于这个博客的来源、技术栈和写作方式。'
 - 不需要长期维护服务器
 - 迁移和备份都比较清楚
 
+部署参考链接：
+
+- 基本上是基于这个部署而来：[2026年了，还有人用博客吗 - 开发调优 - LINUX DO]([https://linux.do/t/topic/1589117](https://linux.do/t/topic/1589117))
+
+- [https://linux.do/t/topic/1625276/19?u=koi_alkaid](https://linux.do/t/topic/1625276/19?u=koi_alkaid)
+
 ## 它是怎么部署的
 
 这个站点托管在 **GitHub Pages** 上。
