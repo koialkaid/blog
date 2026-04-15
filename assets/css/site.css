@@ -694,13 +694,13 @@ h3 {
 
 .article-page-shell {
   display: grid;
-  grid-template-columns: minmax(0, 46rem) minmax(12rem, 14rem);
-  gap: 1.35rem;
+  grid-template-columns: minmax(0, 52rem) minmax(13rem, 15rem);
+  gap: 2.1rem;
   align-items: start;
 }
 
 .article-page-shell.no-aside {
-  grid-template-columns: minmax(0, 46rem);
+  grid-template-columns: minmax(0, 52rem);
 }
 
 .back-link {
@@ -711,7 +711,7 @@ h3 {
 }
 
 .article-main {
-  padding: 1.15rem 1.3rem 1.45rem;
+  padding: 1.15rem 1.45rem 1.55rem;
   border-top: 2px solid var(--accent-deep);
 }
 
@@ -753,11 +753,12 @@ h3 {
   max-height: calc(100vh - 4rem);
   overflow: auto;
   scrollbar-width: thin;
+  padding-left: 0.4rem;
 }
 
 .article-toc-card,
 .series-reading-card {
-  max-width: 13.5rem;
+  max-width: 14.5rem;
   padding: 0.72rem 0.8rem 0.8rem;
   border: 1px solid var(--line);
   background: var(--panel-bg);
