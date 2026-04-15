@@ -4,6 +4,7 @@ languageCode = 'zh-cn'
 defaultContentLanguage = 'zh-cn'
 title = "Koi's Blog"
 timezone = 'Asia/Shanghai'
+buildFuture = true
 enableRobotsTXT = true
 summaryLength = 120
 

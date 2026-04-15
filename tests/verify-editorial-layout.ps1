@@ -57,7 +57,24 @@ $tagDetailHtml = if ($tagDetailFile) {
 } else {
   ''
 }
-$pagesConfigCheck = python -c "import pathlib, sys, yaml; data=yaml.safe_load(pathlib.Path(r'$repoRoot\.pages.yml').read_text(encoding='utf-8')); entries={item['name']: item for item in data['content']}; posts=entries['posts']; notes=entries['notes']; posts_date=next(field for field in posts['fields'] if field['name']=='date'); notes_date=next(field for field in notes['fields'] if field['name']=='date'); ok=('time' not in (posts_date.get('options') or {})) and ('time' not in (notes_date.get('options') or {})); sys.stdout.write('True' if ok else 'False')"
+$pagesConfigPath = Join-Path $repoRoot '.pages.yml'
+$cmsDateCheckScript = @"
+import pathlib, sys, yaml
+data = yaml.safe_load(pathlib.Path(r'$pagesConfigPath').read_text(encoding='utf-8'))
+entries = {item['name']: item for item in data['content']}
+posts_date = next(field for field in entries['posts']['fields'] if field['name'] == 'date')
+notes_date = next(field for field in entries['notes']['fields'] if field['name'] == 'date')
+expected = 'yyyy-MM-dd' + chr(39) + 'T' + chr(39) + 'HH:mm:ss'
+ok = (
+    (posts_date.get('options') or {}).get('time') is True
+    and (notes_date.get('options') or {}).get('time') is True
+    and (posts_date.get('options') or {}).get('format') == expected
+    and (notes_date.get('options') or {}).get('format') == expected
+)
+sys.stdout.write('True' if ok else 'False')
+"@
+$cmsDateConfigCheck = python -c $cmsDateCheckScript
+$hugoConfig = Get-Content -Path (Join-Path $repoRoot 'hugo.toml') -Raw
 
 $themePages = @($homeHtml, $postsHtml, $notesHtml, $tagsHtml, $aboutHtml, $todoHtml, $postHtml)
 if ($tagDetailHtml) {
@@ -111,7 +128,8 @@ $checks = @(
   @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and $postCount -gt 100 },
   @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
   @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
-  @{ Name = 'cms post and note dates are date-only to avoid future-time hiding'; Ok = $pagesConfigCheck -eq 'True' },
+  @{ Name = 'cms post and note dates use datetime format supported by Pages CMS'; Ok = $cmsDateConfigCheck -eq 'True' },
+  @{ Name = 'hugo builds future-dated CMS entries immediately'; Ok = $hugoConfig -match '(?m)^buildFuture\s*=\s*true\s*$' },
   @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'article-aside' -and $postHtml -match 'article-toc-card' },
   @{ Name = 'post page toc is not rendered in sidebar'; Ok = $postHtml -notmatch 'sidebar-context-panel' },
   @{ Name = 'post page toc is not rendered before body inside main flow'; Ok = $postHtml -notmatch 'article-toc-block' },
