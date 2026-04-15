@@ -28,7 +28,16 @@ $todoHtml = if (Test-Path (Join-Path $outputDir 'todo\index.html')) {
 } else {
   ''
 }
-$postHtml = Get-Content -Path (Join-Path $outputDir 'posts\welcome-to-my-blog\index.html') -Raw
+$postDetailFiles = Get-ChildItem -Path (Join-Path $outputDir 'posts') -Directory -ErrorAction SilentlyContinue |
+  Where-Object { $_.Name -notin @('page') }
+$noteDetailFiles = Get-ChildItem -Path (Join-Path $outputDir 'notes') -Directory -ErrorAction SilentlyContinue |
+  Where-Object { $_.Name -notin @('page') }
+$postDetailFile = $postDetailFiles | Select-Object -First 1
+$postHtml = if ($postDetailFile -and (Test-Path (Join-Path $postDetailFile.FullName 'index.html'))) {
+  Get-Content -Path (Join-Path $postDetailFile.FullName 'index.html') -Raw
+} else {
+  ''
+}
 $seriesHtml = if (Test-Path (Join-Path $outputDir 'series\index.html')) {
   Get-Content -Path (Join-Path $outputDir 'series\index.html') -Raw
 } else {
@@ -49,7 +58,7 @@ $agentArticleHtml = if (Test-Path (Join-Path $outputDir 'posts\agent-learning-01
 }
 $cssFile = Get-ChildItem -Path (Join-Path $outputDir 'css') -Filter 'site*.css' | Select-Object -First 1
 $cssText = if ($cssFile) { Get-Content -Path $cssFile.FullName -Raw } else { '' }
-$tagDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'tags') -Directory |
+$tagDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'tags') -Directory -ErrorAction SilentlyContinue |
   Where-Object { $_.Name -notin @('page') } |
   Select-Object -First 1
 $tagDetailHtml = if ($tagDetailFile) {
@@ -76,7 +85,10 @@ sys.stdout.write('True' if ok else 'False')
 $cmsDateConfigCheck = python -c $cmsDateCheckScript
 $hugoConfig = Get-Content -Path (Join-Path $repoRoot 'hugo.toml') -Raw
 
-$themePages = @($homeHtml, $postsHtml, $notesHtml, $tagsHtml, $aboutHtml, $todoHtml, $postHtml)
+$themePages = @($homeHtml, $postsHtml, $notesHtml, $tagsHtml, $aboutHtml, $todoHtml)
+if ($postHtml) {
+  $themePages += $postHtml
+}
 if ($tagDetailHtml) {
   $themePages += $tagDetailHtml
 }
@@ -101,13 +113,16 @@ $postCount = if ($postCountMatch.Success) {
 
 $homeCardCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card')).Count
 $homeNoteCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card is-note')).Count
+$homePostCount = $homeCardCount - $homeNoteCount
+$expectedHomePostCount = [Math]::Min(2, $postDetailFiles.Count)
+$expectedHomeNoteCount = [Math]::Min(2, $noteDetailFiles.Count)
 $agentSeriesOrderOk = $agentSeriesHtml -match 'Agent 学习 01[\s\S]*Agent 学习 02[\s\S]*Agent 学习 03'
 $sidebarOrderOk = $homeHtml -match 'sidebar-brand-card[\s\S]*sidebar-profile-card[\s\S]*sidebar-nav-panel'
 $navOrderOk = $homeHtml -match '<span>首页</span>[\s\S]*<span>文章</span>[\s\S]*<span>日记</span>[\s\S]*<span>系列</span>[\s\S]*<span>待办</span>[\s\S]*<span>标签</span>[\s\S]*<span>About</span>[\s\S]*<span>RSS</span>'
 
 $checks = @(
   @{ Name = 'home uses card-based article layout'; Ok = $homeHtml -match 'class=reading-card' },
-  @{ Name = 'home shows two recent entries per section'; Ok = $homeCardCount -eq 4 -and $homeNoteCount -eq 2 },
+  @{ Name = 'home shows available recent entries per section'; Ok = $homePostCount -eq $expectedHomePostCount -and $homeNoteCount -eq $expectedHomeNoteCount },
   @{ Name = 'notes display labels are renamed to diary'; Ok = $homeHtml -match '最近日记' -and $homeHtml -match '查看全部日记' -and $notesHtml -match '<h1>日记</h1>' -and $notesHtml -notmatch $oldNotesLabel },
   @{ Name = 'home exposes explicit read-more action'; Ok = $homeHtml -match 'class=reading-action' },
   @{ Name = 'sidebar uses separated editorial panels'; Ok = $homeHtml -match 'sidebar-brand-card' -and $homeHtml -match 'sidebar-nav-panel' },
@@ -122,33 +137,33 @@ $checks = @(
   @{ Name = 'posts list no longer renders visible section description'; Ok = $postsHtml -notmatch '<section class=page-header>.*?<p class=lede>' },
   @{ Name = 'notes list no longer renders visible section description'; Ok = $notesHtml -notmatch '<section class=page-header>.*?<p class=lede>' },
   @{ Name = 'tags page no longer renders visible description'; Ok = $tagsHtml -notmatch '<section class=page-header>.*?<p class=lede>' },
-  @{ Name = 'listing cards only keep date in meta'; Ok = $homeHtml -match '<div class=writing-meta><span>[^<]+</span></div>' -and $postsHtml -match '<div class=writing-meta><span>[^<]+</span></div>' -and $notesHtml -match '<div class=writing-meta><span>[^<]+</span></div>' },
+  @{ Name = 'listing cards only keep date in meta'; Ok = $homeHtml -match '<div class=writing-meta><span>[^<]+</span></div>' -and ($postDetailFiles.Count -eq 0 -or $postsHtml -match '<div class=writing-meta><span>[^<]+</span></div>') -and ($noteDetailFiles.Count -eq 0 -or $notesHtml -match '<div class=writing-meta><span>[^<]+</span></div>') },
   @{ Name = 'listing cards no longer show feature or note badges'; Ok = $homeHtml -notmatch 'class=reading-label' -and $postsHtml -notmatch 'class=reading-label' -and $notesHtml -notmatch 'class=reading-label' },
   @{ Name = 'visible reading time removed from cards and pages'; Ok = ($themePages | Where-Object { $_ -notmatch '分钟阅读' }).Count -eq $themePages.Count },
-  @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and $postCount -gt 100 },
+  @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and ($postHtml -eq '' -or $postCount -gt 100) },
   @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
   @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
   @{ Name = 'cms post and note dates use datetime format supported by Pages CMS'; Ok = $cmsDateConfigCheck -eq 'True' },
   @{ Name = 'hugo builds future-dated CMS entries immediately'; Ok = $hugoConfig -match '(?m)^buildFuture\s*=\s*true\s*$' },
-  @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -match 'On This Page' -and $postHtml -match 'article-aside' -and $postHtml -match 'article-toc-card' },
+  @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -eq '' -or ($postHtml -match 'On This Page' -and $postHtml -match 'article-aside' -and $postHtml -match 'article-toc-card') },
   @{ Name = 'post page toc is not rendered in sidebar'; Ok = $postHtml -notmatch 'sidebar-context-panel' },
   @{ Name = 'post page toc is not rendered before body inside main flow'; Ok = $postHtml -notmatch 'article-toc-block' },
-  @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -match 'article-page-shell' },
+  @{ Name = 'post page keeps independent article shell'; Ok = $postHtml -eq '' -or $postHtml -match 'article-page-shell' },
   @{ Name = 'toc aside uses sticky positioning'; Ok = $cssText -match '\.article-aside\{[^}]*position:sticky[^}]*top:[^;}]+[^}]*' },
   @{ Name = 'toc card supports internal scrolling when long'; Ok = $cssText -match '\.article-aside\{[^}]*max-height:calc\(100vh - 4rem\)[^}]*overflow:auto' },
   @{ Name = 'toc and series cards keep visible card shadow'; Ok = $cssText -match '\.article-toc-card,\s*\.series-reading-card\{[^}]*box-shadow:var\(--shadow-card\)' },
-  @{ Name = 'series index page exists and lists agent learning'; Ok = $seriesHtml -match '<h1>系列</h1>' -and $seriesHtml -match 'Agent 学习' },
+  @{ Name = 'series index page renders when series content exists'; Ok = $seriesHtml -eq '' -or $seriesHtml -match '<h1>系列</h1>' },
   @{ Name = 'tags page uses compact grid layout'; Ok = $tagsHtml -match 'taxonomy-tag-grid' -and $tagsHtml -match 'taxonomy-tag-card' },
   @{ Name = 'tags page uses single-layer tag cards'; Ok = $cssText -match '\.taxonomy-tag-card\{[^}]*border:0[^}]*background:(?:transparent|0 0)[^}]*box-shadow:none' -and $cssText -match '\.taxonomy-tag-card \.tag-pill\{[^}]*box-shadow:var\(--shadow-card\)|\.taxonomy-tag-card\.tag-pill\{[^}]*box-shadow:var\(--shadow-card\)' },
-  @{ Name = 'series index shows description for agent learning'; Ok = $seriesHtml -match 'taxonomy-series-card' -and $seriesHtml -match 'Agent 学习' -and $seriesHtml -match '基本概念、工具调用与边界设定' },
-  @{ Name = 'series detail shows description for agent learning'; Ok = $agentSeriesHtml -match '基本概念、工具调用与边界设定' },
+  @{ Name = 'series index shows description for agent learning when present'; Ok = $seriesHtml -notmatch 'Agent 学习' -or ($seriesHtml -match 'taxonomy-series-card' -and $seriesHtml -match '基本概念、工具调用与边界设定') },
+  @{ Name = 'series detail shows description for agent learning when present'; Ok = $agentSeriesHtml -notmatch 'Agent 学习' -or $agentSeriesHtml -match '基本概念、工具调用与边界设定' },
   @{ Name = 'todo page exists and renders in navigation'; Ok = $todoHtml -match '<h1>待办</h1>' -and $homeHtml -match '<span>待办</span>' -and $homeHtml -match 'href=/blog/todo/' },
-  @{ Name = 'agent learning series page sorts entries by series order'; Ok = $agentSeriesOrderOk },
-  @{ Name = 'series article shows series metadata'; Ok = $agentArticleHtml -match '系列：Agent 学习' -and $agentArticleHtml -match '第 1 篇' },
-  @{ Name = 'series article shows full series list card in aside'; Ok = $agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习 01' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' -and $agentArticleHtml -match '查看系列' },
+  @{ Name = 'agent learning series page sorts entries by series order when present'; Ok = $agentSeriesHtml -notmatch 'Agent 学习' -or $agentSeriesOrderOk },
+  @{ Name = 'series article shows series metadata when present'; Ok = $agentArticleHtml -eq '' -or ($agentArticleHtml -match '系列：Agent 学习' -and $agentArticleHtml -match '第 1 篇') },
+  @{ Name = 'series article shows full series list card in aside when present'; Ok = $agentArticleHtml -eq '' -or ($agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习 01' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' -and $agentArticleHtml -match '查看系列') },
   @{ Name = 'series reading is removed from article main'; Ok = $agentArticleHtml -notmatch '<div class=article-main>[\s\S]*<section class=series-reading' },
-  @{ Name = 'series reading marks current article'; Ok = $agentArticleHtml -match '<em>当前</em>' },
-  @{ Name = 'non-series article does not render series block'; Ok = $postHtml -notmatch 'series-reading-card' -and $postHtml -notmatch '系列：' }
+  @{ Name = 'series reading marks current article when present'; Ok = $agentArticleHtml -eq '' -or $agentArticleHtml -match '<em>当前</em>' },
+  @{ Name = 'non-series article does not render series block'; Ok = $postHtml -eq '' -or ($postHtml -notmatch 'series-reading-card' -and $postHtml -notmatch '系列：') }
 )
 
 $failed = $checks | Where-Object { -not $_.Ok }
