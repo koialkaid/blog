@@ -1,6 +1,6 @@
 +++
 title = 'About'
-description = '关于这个博客的来源、技术栈和写作方式。'
+description = '博客的技术栈、写作方式等。'
 +++
 你好，这里是 Koi's Blog。
 
