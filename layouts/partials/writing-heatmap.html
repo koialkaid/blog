@@ -28,9 +28,9 @@
           {{ $dayKey := $dayDate.Format "2006-01-02" }}
           {{ $monthTotal = add $monthTotal (index $dateCounts $dayKey | default 0) }}
         {{ end }}
-        <section class="heatmap-month-card" aria-label="{{ $monthStart.Format "1月" }}写作记录">
+        <section class="heatmap-month-card" aria-label="{{ $monthStart.Format "2006.1" }}写作记录">
           <div class="heatmap-month-header">
-            <h3 class="heatmap-month-title">{{ $monthStart.Format "1月" }}</h3>
+            <h3 class="heatmap-month-title">{{ $monthStart.Format "2006.1" }}</h3>
             <span class="heatmap-month-total">{{ $monthTotal }}</span>
           </div>
           <div class="heatmap-month-weekdays" aria-hidden="true">
