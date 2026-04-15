@@ -9,41 +9,45 @@
 
 {{ $today := now }}
 {{ $weekdayOffsets := dict "Monday" 0 "Tuesday" 1 "Wednesday" 2 "Thursday" 3 "Friday" 4 "Saturday" 5 "Sunday" 6 }}
-{{ $currentWeekday := index $weekdayOffsets (dateFormat "Monday" $today) }}
-{{ $currentWeekStart := $today.AddDate 0 0 (mul -1 $currentWeekday) }}
-{{ $gridStart := $currentWeekStart.AddDate 0 0 -364 }}
+{{ $weekdayLabels := slice "一" "二" "三" "四" "五" "六" "日" }}
 
 <section class="writing-section writing-heatmap-section" aria-label="最近一年写作记录">
   <div class="writing-heatmap">
-    <div class="writing-heatmap-scroll" role="img" aria-label="最近一年 posts 和 notes 更新热力图">
-      <div class="heatmap-calendar">
-        <div class="heatmap-months" aria-hidden="true">
-          {{ range $week := seq 0 52 }}
-            {{ $weekDate := $gridStart.AddDate 0 0 (mul $week 7) }}
-            {{ $dayOfMonth := int ($weekDate.Format "2") }}
-            {{ $isMonthStart := or (eq $week 0) (le $dayOfMonth 7) }}
-            <span class="heatmap-month heatmap-month-label{{ if $isMonthStart }} month-start{{ end }}">{{ if $isMonthStart }}{{ $weekDate.Format "1" }}月{{ end }}</span>
-          {{ end }}
-        </div>
-
-        <div class="heatmap-body">
-          <div class="heatmap-weekdays" aria-hidden="true">
-            <span class="heatmap-weekday heatmap-weekday-label">一</span>
-            <span class="heatmap-weekday heatmap-weekday-label"></span>
-            <span class="heatmap-weekday heatmap-weekday-label">三</span>
-            <span class="heatmap-weekday heatmap-weekday-label"></span>
-            <span class="heatmap-weekday heatmap-weekday-label">五</span>
-            <span class="heatmap-weekday heatmap-weekday-label"></span>
-            <span class="heatmap-weekday heatmap-weekday-label"></span>
+    <div class="writing-heatmap-year-grid">
+      {{ range $offset := seq 0 11 }}
+        {{ $baseDate := $today.AddDate 0 (sub $offset 11) 0 }}
+        {{ $monthStart := time.AsTime (printf "%s-%s-01" ($baseDate.Format "2006") ($baseDate.Format "01")) }}
+        {{ $nextMonthStart := $monthStart.AddDate 0 1 0 }}
+        {{ $daysInMonth := div (sub $nextMonthStart.Unix $monthStart.Unix) 86400 }}
+        {{ $monthWeekday := index $weekdayOffsets (dateFormat "Monday" $monthStart) }}
+        {{ $totalCells := add $monthWeekday $daysInMonth }}
+        {{ $gridCells := mul (div (add $totalCells 6) 7) 7 }}
+        {{ $monthTotal := 0 }}
+        {{ range $dayIndex := seq 0 (sub $daysInMonth 1) }}
+          {{ $dayDate := $monthStart.AddDate 0 0 $dayIndex }}
+          {{ $dayKey := $dayDate.Format "2006-01-02" }}
+          {{ $monthTotal = add $monthTotal (index $dateCounts $dayKey | default 0) }}
+        {{ end }}
+        <section class="heatmap-month-card" aria-label="{{ $monthStart.Format "1月" }}写作记录">
+          <div class="heatmap-month-header">
+            <h3 class="heatmap-month-title">{{ $monthStart.Format "1月" }}</h3>
+            <span class="heatmap-month-total">{{ $monthTotal }}</span>
           </div>
-
-          <div class="heatmap-grid">
-            {{ range $week := seq 0 52 }}
-              {{ range $weekday := seq 0 6 }}
-                {{ $offset := add (mul $week 7) $weekday }}
-                {{ $cellDate := $gridStart.AddDate 0 0 $offset }}
+          <div class="heatmap-month-weekdays" aria-hidden="true">
+            {{ range $weekdayLabels }}
+              <span class="heatmap-month-weekday">{{ . }}</span>
+            {{ end }}
+          </div>
+          <div class="heatmap-month-grid">
+            {{ range $cellIndex := seq 0 (sub $gridCells 1) }}
+              {{ if lt $cellIndex $monthWeekday }}
+                <span class="heatmap-day-placeholder" aria-hidden="true"></span>
+              {{ else if ge $cellIndex (add $monthWeekday $daysInMonth) }}
+                <span class="heatmap-day-placeholder" aria-hidden="true"></span>
+              {{ else }}
+                {{ $dayNumber := add (sub $cellIndex $monthWeekday) 1 }}
+                {{ $cellDate := $monthStart.AddDate 0 0 (sub $dayNumber 1) }}
                 {{ $dateKey := $cellDate.Format "2006-01-02" }}
-                {{ $isMonthStart := and (eq $weekday 0) (or (eq $week 0) (le (int ($cellDate.Format "2")) 7)) }}
                 {{ $count := index $dateCounts $dateKey | default 0 }}
                 {{ $level := 0 }}
                 {{ if ge $count 3 }}
@@ -53,12 +57,12 @@
                 {{ else if eq $count 1 }}
                   {{ $level = 1 }}
                 {{ end }}
-                <span class="heatmap-cell heatmap-level-{{ $level }}{{ if $isMonthStart }} month-start{{ end }}" title="{{ $dateKey }} · {{ $count }} 条更新" aria-label="{{ $dateKey }}，{{ $count }} 条更新"></span>
+                <span class="heatmap-day-cell heatmap-level-{{ $level }}" title="{{ $dateKey }} · {{ $count }} 条更新" aria-label="{{ $dateKey }}，{{ $count }} 条更新"></span>
               {{ end }}
             {{ end }}
           </div>
-        </div>
-      </div>
+        </section>
+      {{ end }}
     </div>
   </div>
 </section>

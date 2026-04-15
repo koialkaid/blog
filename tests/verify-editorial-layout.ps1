@@ -120,9 +120,10 @@ $homeCardCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card'
 $homeNoteCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card is-note')).Count
 $heatmapSectionIndex = $homeHtml.IndexOf('writing-heatmap-section')
 $postsSectionIndex = $homeHtml.IndexOf('最近文章')
-$heatmapCellCount = ([regex]::Matches($homeHtml, 'class="heatmap-cell')).Count
-$heatmapMonthCount = ([regex]::Matches($homeHtml, 'class="heatmap-month')).Count
-$heatmapWeekdayCount = ([regex]::Matches($homeHtml, 'class="heatmap-weekday')).Count
+$heatmapMonthCardCount = ([regex]::Matches($homeHtml, 'heatmap-month-card')).Count
+$heatmapMonthTitleCount = ([regex]::Matches($homeHtml, 'heatmap-month-title')).Count
+$heatmapDayCellCount = ([regex]::Matches($homeHtml, 'heatmap-day-cell')).Count
+$heatmapPlaceholderCount = ([regex]::Matches($homeHtml, 'heatmap-day-placeholder')).Count
 $homePostCount = $homeCardCount - $homeNoteCount
 $expectedHomePostCount = [Math]::Min(2, $postDetailFiles.Count)
 $expectedHomeNoteCount = [Math]::Min(2, $noteDetailFiles.Count)
@@ -153,11 +154,12 @@ $checks = @(
   @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and ($postHtml -eq '' -or $postCount -gt 100) },
   @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
   @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
-  @{ Name = 'home renders writing heatmap body without heading copy'; Ok = $homeHtml -match 'writing-heatmap-section' -and $homeHtml -match 'writing-heatmap' -and $homeHtml -notmatch 'writing-heatmap-title' -and $homeHtml -notmatch '>写作记录<' -and $homeHtml -notmatch '>最近一年<' -and $homeHtml -notmatch '>Activity<' },
+  @{ Name = 'home renders monthly writing heatmap body without heading copy'; Ok = $homeHtml -match 'writing-heatmap-section' -and $homeHtml -match 'writing-heatmap' -and $homeHtml -notmatch 'writing-heatmap-title' -and $homeHtml -notmatch '>写作记录<' -and $homeHtml -notmatch '>最近一年<' -and $homeHtml -notmatch '>Activity<' },
   @{ Name = 'writing heatmap appears before recent posts'; Ok = $heatmapSectionIndex -ge 0 -and $postsSectionIndex -ge 0 -and $heatmapSectionIndex -lt $postsSectionIndex },
-  @{ Name = 'writing heatmap renders contribution-style cells'; Ok = $heatmapCellCount -ge 365 },
-  @{ Name = 'writing heatmap renders month labels'; Ok = $heatmapMonthCount -ge 10 },
-  @{ Name = 'writing heatmap renders weekday labels'; Ok = $heatmapWeekdayCount -ge 3 },
+  @{ Name = 'writing heatmap renders 12 month cards'; Ok = $heatmapMonthCardCount -eq 12 },
+  @{ Name = 'writing heatmap renders month titles'; Ok = $heatmapMonthTitleCount -eq 12 },
+  @{ Name = 'writing heatmap renders daily cells'; Ok = $heatmapDayCellCount -ge 365 },
+  @{ Name = 'writing heatmap renders padding placeholders for calendar structure'; Ok = $heatmapPlaceholderCount -ge 20 },
   @{ Name = 'cms post and note dates use datetime format supported by Pages CMS'; Ok = $cmsDateConfigCheck -eq 'True' },
   @{ Name = 'hugo builds future-dated CMS entries immediately'; Ok = $hugoConfig -match '(?m)^buildFuture\s*=\s*true\s*$' },
   @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -eq '' -or ($postHtml -match 'On This Page' -and $postHtml -match 'article-aside' -and $postHtml -match 'article-toc-card') },
