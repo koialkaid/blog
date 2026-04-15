@@ -21,7 +21,8 @@
           {{ range $week := seq 0 52 }}
             {{ $weekDate := $gridStart.AddDate 0 0 (mul $week 7) }}
             {{ $dayOfMonth := int ($weekDate.Format "2") }}
-            <span class="heatmap-month heatmap-month-label">{{ if or (eq $week 0) (le $dayOfMonth 7) }}{{ $weekDate.Format "1" }}月{{ end }}</span>
+            {{ $isMonthStart := or (eq $week 0) (le $dayOfMonth 7) }}
+            <span class="heatmap-month heatmap-month-label{{ if $isMonthStart }} month-start{{ end }}">{{ if $isMonthStart }}{{ $weekDate.Format "1" }}月{{ end }}</span>
           {{ end }}
         </div>
 
@@ -42,6 +43,7 @@
                 {{ $offset := add (mul $week 7) $weekday }}
                 {{ $cellDate := $gridStart.AddDate 0 0 $offset }}
                 {{ $dateKey := $cellDate.Format "2006-01-02" }}
+                {{ $isMonthStart := and (eq $weekday 0) (or (eq $week 0) (le (int ($cellDate.Format "2")) 7)) }}
                 {{ $count := index $dateCounts $dateKey | default 0 }}
                 {{ $level := 0 }}
                 {{ if ge $count 3 }}
@@ -51,7 +53,7 @@
                 {{ else if eq $count 1 }}
                   {{ $level = 1 }}
                 {{ end }}
-                <span class="heatmap-cell heatmap-level-{{ $level }}" title="{{ $dateKey }} · {{ $count }} 条更新" aria-label="{{ $dateKey }}，{{ $count }} 条更新"></span>
+                <span class="heatmap-cell heatmap-level-{{ $level }}{{ if $isMonthStart }} month-start{{ end }}" title="{{ $dateKey }} · {{ $count }} 条更新" aria-label="{{ $dateKey }}，{{ $count }} 条更新"></span>
               {{ end }}
             {{ end }}
           </div>

@@ -514,7 +514,23 @@ h3 {
 }
 
 .heatmap-month {
+  position: relative;
   white-space: nowrap;
+}
+
+.heatmap-month.month-start {
+  margin-left: 0.38rem;
+  padding-left: 0.38rem;
+}
+
+.heatmap-month.month-start::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  bottom: 0.1rem;
+  width: 1px;
+  background: var(--line);
 }
 
 .heatmap-body {
@@ -546,6 +562,7 @@ h3 {
 }
 
 .heatmap-cell {
+  position: relative;
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
@@ -553,6 +570,20 @@ h3 {
   border: 1px solid var(--line);
   background: var(--heatmap-0);
   min-width: 0.68rem;
+}
+
+.heatmap-cell.month-start {
+  margin-left: 0.38rem;
+}
+
+.heatmap-cell.month-start::before {
+  content: "";
+  position: absolute;
+  left: -0.29rem;
+  top: -0.12rem;
+  bottom: -0.12rem;
+  width: 1px;
+  background: var(--line);
 }
 
 .heatmap-level-1 {
