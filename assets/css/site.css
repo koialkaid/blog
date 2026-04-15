@@ -443,8 +443,18 @@ h3 {
   margin-top: 1.7rem;
 }
 
+.writing-heatmap-section {
+  width: fit-content;
+  max-width: 100%;
+}
+
 .content-shell > .writing-section:first-child {
   margin-top: 0;
+}
+
+.writing-heatmap-section .section-heading {
+  width: 32rem;
+  max-width: 100%;
 }
 
 .section-heading {
