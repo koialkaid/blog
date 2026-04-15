@@ -13,15 +13,7 @@
 {{ $currentWeekStart := $today.AddDate 0 0 (mul -1 $currentWeekday) }}
 {{ $gridStart := $currentWeekStart.AddDate 0 0 -364 }}
 
-<section class="writing-section writing-heatmap-section" aria-labelledby="writing-heatmap-title">
-  <div class="section-heading">
-    <div>
-      <p class="section-kicker">Activity</p>
-      <h2 id="writing-heatmap-title">写作记录</h2>
-    </div>
-    <p>最近一年</p>
-  </div>
-
+<section class="writing-section writing-heatmap-section" aria-label="最近一年写作记录">
   <div class="writing-heatmap">
     <div class="writing-heatmap-scroll" role="img" aria-label="最近一年 posts 和 notes 更新热力图">
       <div class="heatmap-calendar">

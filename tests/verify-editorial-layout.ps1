@@ -118,7 +118,7 @@ $postCount = if ($postCountMatch.Success) {
 
 $homeCardCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card')).Count
 $homeNoteCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card is-note')).Count
-$heatmapSectionIndex = $homeHtml.IndexOf('写作记录')
+$heatmapSectionIndex = $homeHtml.IndexOf('writing-heatmap-section')
 $postsSectionIndex = $homeHtml.IndexOf('最近文章')
 $heatmapCellCount = ([regex]::Matches($homeHtml, 'class="heatmap-cell')).Count
 $heatmapMonthCount = ([regex]::Matches($homeHtml, 'class="heatmap-month')).Count
@@ -153,7 +153,7 @@ $checks = @(
   @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and ($postHtml -eq '' -or $postCount -gt 100) },
   @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
   @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
-  @{ Name = 'home renders writing heatmap section'; Ok = $homeHtml -match '写作记录' -and $homeHtml -match 'writing-heatmap' },
+  @{ Name = 'home renders writing heatmap body without heading copy'; Ok = $homeHtml -match 'writing-heatmap-section' -and $homeHtml -match 'writing-heatmap' -and $homeHtml -notmatch 'writing-heatmap-title' -and $homeHtml -notmatch '>写作记录<' -and $homeHtml -notmatch '>最近一年<' -and $homeHtml -notmatch '>Activity<' },
   @{ Name = 'writing heatmap appears before recent posts'; Ok = $heatmapSectionIndex -ge 0 -and $postsSectionIndex -ge 0 -and $heatmapSectionIndex -lt $postsSectionIndex },
   @{ Name = 'writing heatmap renders contribution-style cells'; Ok = $heatmapCellCount -ge 365 },
   @{ Name = 'writing heatmap renders month labels'; Ok = $heatmapMonthCount -ge 10 },
