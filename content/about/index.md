@@ -19,8 +19,7 @@ description = '博客的技术栈、写作方式等。'
 部署参考链接：
 
 - 基本上是基于这个部署而来：[2026年了，还有人用博客吗 - 开发调优 - LINUX DO]([https://linux.do/t/topic/1589117](https://linux.do/t/topic/1589117))
-
-- [https://linux.do/t/topic/1625276/19?u=koi_alkaid](https://linux.do/t/topic/1625276/19?u=koi_alkaid)
+- [博客的意义](https://linux.do/t/topic/1625276/19?u=koi_alkaid)
 
 ## 它是怎么部署的
 
