@@ -2,28 +2,6 @@
 
 一个基于 Hugo 的纯公开个人博客，目标是简单、稳定、低维护、易备份。
 
-## 本地启动
-
-前提：本机已安装 Hugo Extended。
-
-在当前项目目录执行：
-
-```powershell
-hugo server -D
-```
-
-如果当前 PowerShell 会话拿不到 PATH，可以直接用绝对路径：
-
-```powershell
-& "C:\Users\胡艳\AppData\Local\Microsoft\WinGet\Packages\Hugo.Hugo.Extended_Microsoft.Winget.Source_8wekyb3d8bbwe\hugo.exe" server -D
-```
-
-默认预览地址：
-
-```text
-http://localhost:1313/
-```
-
 ## 怎么新建文章
 
 正式文章：
@@ -98,12 +76,6 @@ git push -u origin main
 
 ```powershell
 hugo --gc --minify --cleanDestinationDir
-```
-
-如果构建成功，生成文件会输出到：
-
-```text
-public/
 ```
 
 ## 在线写作后台
