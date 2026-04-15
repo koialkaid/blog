@@ -2,6 +2,8 @@
   {{ $allPages := .Site.RegularPages.ByDate.Reverse }}
   {{ $recentPosts := where $allPages "Section" "posts" }}
   {{ $recentNotes := where $allPages "Section" "notes" }}
+  {{ partial "writing-heatmap.html" . }}
+
   <section class="writing-section">
     <div class="section-heading">
       <div>

@@ -12,10 +12,15 @@ if (Test-Path $outputDir) {
   Remove-Item -LiteralPath $outputDir -Recurse -Force
 }
 
-& $HugoPath --gc --minify --cleanDestinationDir --baseURL $BaseUrl --destination $outputDir | Out-Null
-
-if ($LASTEXITCODE -ne 0) {
-  throw "Hugo build failed with exit code $LASTEXITCODE."
+Push-Location $repoRoot
+try {
+  & $HugoPath --gc --minify --cleanDestinationDir --baseURL $BaseUrl --destination $outputDir | Out-Null
+  if ($LASTEXITCODE -ne 0) {
+    throw "Hugo build failed with exit code $LASTEXITCODE."
+  }
+}
+finally {
+  Pop-Location
 }
 
 $homeHtml = Get-Content -Path (Join-Path $outputDir 'index.html') -Raw
@@ -113,6 +118,11 @@ $postCount = if ($postCountMatch.Success) {
 
 $homeCardCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card')).Count
 $homeNoteCount = ([regex]::Matches($homeHtml, 'class="writing-item reading-card is-note')).Count
+$heatmapSectionIndex = $homeHtml.IndexOf('写作记录')
+$postsSectionIndex = $homeHtml.IndexOf('最近文章')
+$heatmapCellCount = ([regex]::Matches($homeHtml, 'class="heatmap-cell')).Count
+$heatmapMonthCount = ([regex]::Matches($homeHtml, 'class="heatmap-month')).Count
+$heatmapWeekdayCount = ([regex]::Matches($homeHtml, 'class="heatmap-weekday')).Count
 $homePostCount = $homeCardCount - $homeNoteCount
 $expectedHomePostCount = [Math]::Min(2, $postDetailFiles.Count)
 $expectedHomeNoteCount = [Math]::Min(2, $noteDetailFiles.Count)
@@ -143,6 +153,11 @@ $checks = @(
   @{ Name = 'single pages now use full character count'; Ok = $aboutCount -gt 100 -and ($postHtml -eq '' -or $postCount -gt 100) },
   @{ Name = 'theme toggle renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'data-theme-toggle' }).Count -eq $themePages.Count },
   @{ Name = 'theme init script renders across audited pages'; Ok = ($themePages | Where-Object { $_ -match 'localStorage.getItem\("theme"\)' -and $_ -match 'data-theme=light' }).Count -eq $themePages.Count },
+  @{ Name = 'home renders writing heatmap section'; Ok = $homeHtml -match '写作记录' -and $homeHtml -match 'writing-heatmap' },
+  @{ Name = 'writing heatmap appears before recent posts'; Ok = $heatmapSectionIndex -ge 0 -and $postsSectionIndex -ge 0 -and $heatmapSectionIndex -lt $postsSectionIndex },
+  @{ Name = 'writing heatmap renders contribution-style cells'; Ok = $heatmapCellCount -ge 365 },
+  @{ Name = 'writing heatmap renders month labels'; Ok = $heatmapMonthCount -ge 10 },
+  @{ Name = 'writing heatmap renders weekday labels'; Ok = $heatmapWeekdayCount -ge 3 },
   @{ Name = 'cms post and note dates use datetime format supported by Pages CMS'; Ok = $cmsDateConfigCheck -eq 'True' },
   @{ Name = 'hugo builds future-dated CMS entries immediately'; Ok = $hugoConfig -match '(?m)^buildFuture\s*=\s*true\s*$' },
   @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -eq '' -or ($postHtml -match 'On This Page' -and $postHtml -match 'article-aside' -and $postHtml -match 'article-toc-card') },

@@ -20,10 +20,15 @@ if (Test-Path $outputDir) {
   Remove-Item -LiteralPath $outputDir -Recurse -Force
 }
 
-& $HugoPath --gc --minify --cleanDestinationDir --baseURL $BaseUrl --destination $outputDir | Out-Null
-
-if ($LASTEXITCODE -ne 0) {
-  throw "Hugo build failed with exit code $LASTEXITCODE."
+Push-Location $repoRoot
+try {
+  & $HugoPath --gc --minify --cleanDestinationDir --baseURL $BaseUrl --destination $outputDir | Out-Null
+  if ($LASTEXITCODE -ne 0) {
+    throw "Hugo build failed with exit code $LASTEXITCODE."
+  }
+}
+finally {
+  Pop-Location
 }
 
 $prefixPattern = [Regex]::Escape("$pathPrefix/")
