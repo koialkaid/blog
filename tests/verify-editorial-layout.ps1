@@ -63,6 +63,7 @@ $agentArticleHtml = if (Test-Path (Join-Path $outputDir 'posts\agent-learning-01
 }
 $cssFile = Get-ChildItem -Path (Join-Path $outputDir 'css') -Filter 'site*.css' | Select-Object -First 1
 $cssText = if ($cssFile) { Get-Content -Path $cssFile.FullName -Raw } else { '' }
+$singleTemplate = Get-Content -Path (Join-Path $repoRoot 'layouts\_default\single.html') -Raw
 $tagDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'tags') -Directory -ErrorAction SilentlyContinue |
   Where-Object { $_.Name -notin @('page') } |
   Select-Object -First 1
@@ -162,9 +163,16 @@ $checks = @(
   @{ Name = 'writing heatmap renders padding placeholders for calendar structure'; Ok = $heatmapPlaceholderCount -ge 20 },
   @{ Name = 'cms post and note dates use datetime format supported by Pages CMS'; Ok = $cmsDateConfigCheck -eq 'True' },
   @{ Name = 'hugo builds future-dated CMS entries immediately'; Ok = $hugoConfig -match '(?m)^buildFuture\s*=\s*true\s*$' },
-  @{ Name = 'article pages use a wider dedicated content shell'; Ok = $cssText -match '\.kind-page\.section-posts \.content-shell,\s*\.kind-page\.section-notes \.content-shell\{[^}]*max-width:78rem' },
-  @{ Name = 'article layout gives more room to main column and aside separation'; Ok = $cssText -match '\.article-page-shell\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s*minmax\(14rem,\s*16rem\)[^}]*gap:\s*2\.8rem' },
-  @{ Name = 'article summary and body use a wider reading measure'; Ok = $cssText -match '\.article-page \.article-summary,\s*\.article-page \.article-body\{[^}]*max-width:54rem' },
+  @{ Name = 'article page keeps global page frame untouched'; Ok = $cssText -notmatch '\.kind-page\.section-posts \.site-frame' -and $cssText -notmatch '\.kind-page\.section-notes \.site-frame' -and $cssText -notmatch '\.kind-page\.section-posts \.site-content' -and $cssText -notmatch '\.kind-page\.section-notes \.site-content' },
+  @{ Name = 'article page no longer overrides global content shell by section'; Ok = $cssText -notmatch '\.kind-page\.section-posts \.content-shell' -and $cssText -notmatch '\.kind-page\.section-notes \.content-shell' },
+  @{ Name = 'global html keeps a stable scrollbar gutter'; Ok = $cssText -match 'html\{[^}]*scrollbar-gutter:\s*stable' },
+  @{ Name = 'article page uses balanced reading-first two-column shell'; Ok = $cssText -match '\.article-page-shell\{[^}]*grid-template-columns:\s*minmax\(0,\s*48rem\)\s*minmax\(11rem,\s*12\.5rem\)[^}]*gap:\s*1\.8rem' },
+  @{ Name = 'article page no longer ships a separate no-aside desktop shell'; Ok = $cssText -notmatch '\.article-page-shell\.no-aside\{' -and $singleTemplate -notmatch 'article-page-shell\{\{ if not \(or \$hasToc \$hasSeries\) \}\} no-aside' },
+  @{ Name = 'article body and summary keep a restrained readable measure'; Ok = $cssText -match '\.article-page \.article-summary,\s*\.article-page \.article-body\{[^}]*max-width:\s*48rem' },
+  @{ Name = 'article aside stays compact and close to content'; Ok = $cssText -match '\.article-aside\{[^}]*padding-left:\s*0(?:;|\s|\})' -and $cssText -match '\.article-toc-card,\s*\.series-reading-card\{[^}]*max-width:\s*12\.5rem' },
+  @{ Name = 'article main keeps existing card visual style'; Ok = $cssText -match '\.article-main\{[^}]*border-top:\s*2px solid var\(--accent-deep\)' -and $cssText -match '\.sidebar-brand-card,\.sidebar-nav-panel,\.sidebar-profile-card,\.sidebar-context-panel,\.home-intro,\.page-header,\.reading-card,\.article-main,\.taxonomy-card\{[^}]*background:\s*var\(--panel-bg\)[^}]*box-shadow:\s*var\(--shadow-card\)' },
+  @{ Name = 'single template keeps a stable article aside slot'; Ok = $singleTemplate -match '\$hasAsideContent' -and $singleTemplate -like '*<aside class="article-aside{{ if not $hasAsideContent }} is-empty{{ end }}"*' },
+  @{ Name = 'article page remains a dedicated shell'; Ok = ($postHtml -eq '' -or ($postHtml -match 'article-page-shell' -and $postHtml -match 'article-main' -and $postHtml -match 'article-aside')) -and ($agentArticleHtml -eq '' -or ($agentArticleHtml -match 'article-page-shell' -and $agentArticleHtml -match 'article-main' -and $agentArticleHtml -match 'article-aside')) },
   @{ Name = 'post page renders on-this-page block in right-side aside'; Ok = $postHtml -eq '' -or ($postHtml -match 'On This Page' -and $postHtml -match 'article-aside' -and $postHtml -match 'article-toc-card') },
   @{ Name = 'post page toc is not rendered in sidebar'; Ok = $postHtml -notmatch 'sidebar-context-panel' },
   @{ Name = 'post page toc is not rendered before body inside main flow'; Ok = $postHtml -notmatch 'article-toc-block' },
