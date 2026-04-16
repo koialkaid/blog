@@ -166,6 +166,7 @@ $checks = @(
   @{ Name = 'article page keeps global page frame untouched'; Ok = $cssText -notmatch '\.kind-page\.section-posts \.site-frame' -and $cssText -notmatch '\.kind-page\.section-notes \.site-frame' -and $cssText -notmatch '\.kind-page\.section-posts \.site-content' -and $cssText -notmatch '\.kind-page\.section-notes \.site-content' },
   @{ Name = 'article page no longer overrides global content shell by section'; Ok = $cssText -notmatch '\.kind-page\.section-posts \.content-shell' -and $cssText -notmatch '\.kind-page\.section-notes \.content-shell' },
   @{ Name = 'global html keeps a stable scrollbar gutter'; Ok = $cssText -match 'html\{[^}]*scrollbar-gutter:\s*stable' },
+  @{ Name = 'light theme uses a unified solid site background'; Ok = $cssText -match '--bg:\s*#fcfcfc' -and $cssText -match 'body\{[^}]*background:\s*var\(--bg\)' },
   @{ Name = 'article page uses balanced reading-first two-column shell'; Ok = $cssText -match '\.article-page-shell\{[^}]*grid-template-columns:\s*minmax\(0,\s*48rem\)\s*minmax\(11rem,\s*12\.5rem\)[^}]*gap:\s*1\.8rem' },
   @{ Name = 'article page no longer ships a separate no-aside desktop shell'; Ok = $cssText -notmatch '\.article-page-shell\.no-aside\{' -and $singleTemplate -notmatch 'article-page-shell\{\{ if not \(or \$hasToc \$hasSeries\) \}\} no-aside' },
   @{ Name = 'article body and summary keep a restrained readable measure'; Ok = $cssText -match '\.article-page \.article-summary,\s*\.article-page \.article-body\{[^}]*max-width:\s*48rem' },
