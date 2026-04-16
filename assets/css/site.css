@@ -401,7 +401,7 @@ blockquote {
 
 .kind-page.section-posts .content-shell,
 .kind-page.section-notes .content-shell {
-  max-width: 78rem;
+  max-width: 62rem;
 }
 
 h1,
@@ -699,13 +699,13 @@ h3 {
 
 .article-page-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(14rem, 16rem);
-  gap: 2.8rem;
+  grid-template-columns: minmax(0, 48rem) minmax(11rem, 12.5rem);
+  gap: 1.8rem;
   align-items: start;
 }
 
 .article-page-shell.no-aside {
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 48rem);
 }
 
 .back-link {
@@ -716,7 +716,7 @@ h3 {
 }
 
 .article-main {
-  padding: 1.2rem 1.65rem 1.7rem;
+  padding: 1.15rem 1rem 1.45rem;
   border-top: 2px solid var(--accent-deep);
 }
 
@@ -754,12 +754,12 @@ h3 {
   max-height: calc(100vh - 4rem);
   overflow: auto;
   scrollbar-width: thin;
-  padding-left: 0.85rem;
+  padding-left: 0;
 }
 
 .article-toc-card,
 .series-reading-card {
-  max-width: 15rem;
+  max-width: 12.5rem;
   padding: 0.72rem 0.8rem 0.8rem;
   border: 1px solid var(--line);
   background: var(--panel-bg);
@@ -768,7 +768,7 @@ h3 {
 
 .article-page .article-summary,
 .article-page .article-body {
-  max-width: 54rem;
+  max-width: 48rem;
 }
 
 .series-reading-card h2 {
