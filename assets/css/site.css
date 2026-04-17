@@ -49,12 +49,12 @@ html[data-theme="dark"] {
   --paper: #282828;
   --paper-strong: #2e2e2e;
   --panel-bg: rgba(40, 40, 40, 0.97);
-  --ink: #f3f3f3;
+  --ink: #d2d2d2;
   --muted: #a7a7a7;
   --line: #464646;
   --line-strong: #5f5f5f;
-  --accent: #f3f3f3;
-  --accent-deep: #f3f3f3;
+  --accent: #d2d2d2;
+  --accent-deep: #d2d2d2;
   --accent-soft: rgba(255, 255, 255, 0.05);
   --overlay-soft: rgba(255, 255, 255, 0.035);
   --overlay-medium: rgba(255, 255, 255, 0.05);
