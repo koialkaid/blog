@@ -37,11 +37,25 @@ $postDetailFiles = Get-ChildItem -Path (Join-Path $outputDir 'posts') -Directory
   Where-Object { $_.Name -notin @('page') }
 $noteDetailFiles = Get-ChildItem -Path (Join-Path $outputDir 'notes') -Directory -ErrorAction SilentlyContinue |
   Where-Object { $_.Name -notin @('page') }
-$postDetailFile = $postDetailFiles | Select-Object -First 1
-$postHtml = if ($postDetailFile -and (Test-Path (Join-Path $postDetailFile.FullName 'index.html'))) {
-  Get-Content -Path (Join-Path $postDetailFile.FullName 'index.html') -Raw
-} else {
-  ''
+$postHtml = ''
+$postDetailFile = $null
+foreach ($candidatePostDetailFile in $postDetailFiles) {
+  $candidatePostHtmlPath = Join-Path $candidatePostDetailFile.FullName 'index.html'
+  if (-not (Test-Path $candidatePostHtmlPath)) {
+    continue
+  }
+
+  $candidatePostHtml = Get-Content -Path $candidatePostHtmlPath -Raw
+  if ($candidatePostHtml -notmatch 'series-reading-card' -and $candidatePostHtml -notmatch '系列：') {
+    $postDetailFile = $candidatePostDetailFile
+    $postHtml = $candidatePostHtml
+    break
+  }
+
+  if (-not $postDetailFile) {
+    $postDetailFile = $candidatePostDetailFile
+    $postHtml = $candidatePostHtml
+  }
 }
 $seriesHtml = if (Test-Path (Join-Path $outputDir 'series\index.html')) {
   Get-Content -Path (Join-Path $outputDir 'series\index.html') -Raw

@@ -3,6 +3,8 @@ title = '一则招聘'
 slug = 'a-job-posting'
 date = '2026-04-15T18:02:00'
 description = '一则招聘，好详细，按这个学习一下'
+series = ['agent-招聘向学习']
+series_order = 1
 +++
 [深圳智能硬件公司招聘 AI Agent 工程师 （25k+） - 非我莫属 - LINUX DO](https://linux.do/t/topic/1966138)
 

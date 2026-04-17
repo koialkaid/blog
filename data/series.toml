@@ -1,3 +1,7 @@
 [agent_learning]
 title = "Agent 学习"
 description = "围绕 Agent 的基本概念、工具调用与边界设定展开的一组入门文章。它更像一条逐步理解的笔记线，而不是完整教程。"
+
+[agent_job_learning]
+title = "agent-招聘向学习"
+description = "从真实招聘需求倒推 Agent 工程师所需能力，一篇做岗位拆解，一篇给出可执行的学习路线，目标不是泛泛懂概念，而是朝可落地、可协作、可上线的能力靠近。"
