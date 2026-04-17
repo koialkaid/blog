@@ -776,6 +776,9 @@ h3 {
 
 .article-comments-frame {
   min-height: 10rem;
+  max-height: 28rem;
+  overflow: auto;
+  scrollbar-width: thin;
 }
 
 .article-comments-frame .giscus,
