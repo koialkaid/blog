@@ -34,9 +34,9 @@
   --heatmap-1: #cfcfcf;
   --heatmap-2: #8f8f8f;
   --heatmap-3: #3f3f3f;
-  --site-width: 1220px;
+  --site-width: 1440px;
   --sidebar-width: 272px;
-  --content-width: 960px;
+  --content-width: 1120px;
   --radius-lg: 0;
   --radius-md: 0;
   --radius-sm: 0;
@@ -693,8 +693,8 @@ h3 {
 
 .article-page-shell {
   display: grid;
-  grid-template-columns: minmax(0, 48rem) minmax(11rem, 12.5rem);
-  gap: 1.8rem;
+  grid-template-columns: minmax(0, 52rem) minmax(10.5rem, 12rem);
+  gap: 2rem;
   align-items: start;
 }
 
@@ -749,7 +749,7 @@ h3 {
 
 .article-toc-card,
 .series-reading-card {
-  max-width: 12.5rem;
+  max-width: 12rem;
   padding: 0.72rem 0.8rem 0.8rem;
   border: 1px solid var(--line);
   background: var(--panel-bg);
@@ -758,7 +758,7 @@ h3 {
 
 .article-page .article-summary,
 .article-page .article-body {
-  max-width: 48rem;
+  max-width: 52rem;
 }
 
 .series-reading-card h2 {
