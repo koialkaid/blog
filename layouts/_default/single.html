@@ -18,6 +18,7 @@
   {{ $hasToc := gt (len $tocText) 0 }}
   {{ $hasSeries := gt (len $seriesPages) 0 }}
   {{ $hasAsideContent := or $hasToc $hasSeries }}
+  {{ $hasComments := and .Site.Params.giscus.enabled (or (eq .Section "posts") (eq .Section "notes")) }}
   <article class="article-page">
     {{ if eq .Section "posts" }}
       <a class="back-link" href="{{ "posts/" | relLangURL }}">← 返回文章列表</a>
@@ -59,6 +60,9 @@
                 <li><a class="tag-pill" href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}">#{{ . }}</a></li>
               {{ end }}
             </ul>
+          {{ end }}
+          {{ if $hasComments }}
+            <a class="article-comments-jump" href="#comments">参与评论</a>
           {{ end }}
         </header>
         <div class="article-body">

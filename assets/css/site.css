@@ -772,18 +772,29 @@ h3 {
   margin-top: 2rem;
   padding-top: 1.15rem;
   border-top: 1px solid var(--line);
+  scroll-margin-top: 1.5rem;
 }
 
 .article-comments-frame {
   min-height: 10rem;
-  max-height: 28rem;
-  overflow: auto;
-  scrollbar-width: thin;
 }
 
 .article-comments-frame .giscus,
 .article-comments-frame .giscus-frame {
   width: 100%;
+}
+
+.article-comments-jump {
+  width: fit-content;
+  padding-bottom: 0.12rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.article-comments-jump:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .series-reading-card h2 {
