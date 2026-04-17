@@ -774,17 +774,6 @@ h3 {
   border-top: 1px solid var(--line);
 }
 
-.article-comments-meta {
-  display: grid;
-  gap: 0.35rem;
-  margin-bottom: 0.95rem;
-}
-
-.article-comments-note {
-  color: var(--muted);
-  font-size: 0.88rem;
-}
-
 .article-comments-frame {
   min-height: 10rem;
 }

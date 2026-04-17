@@ -1,10 +1,6 @@
 {{ $giscus := .Site.Params.giscus }}
 {{ if and $giscus.enabled (or (eq .Section "posts") (eq .Section "notes")) }}
   <section class="article-comments" aria-label="评论区">
-    <div class="article-comments-meta">
-      <p class="section-kicker">Comments</p>
-      <p class="article-comments-note">登录 GitHub 后即可评论。</p>
-    </div>
     <div class="article-comments-frame">
       <script
         src="https://giscus.app/client.js"

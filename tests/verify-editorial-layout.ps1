@@ -71,6 +71,7 @@ $cssFile = Get-ChildItem -Path (Join-Path $outputDir 'css') -Filter 'site*.css' 
 $cssText = if ($cssFile) { Get-Content -Path $cssFile.FullName -Raw } else { '' }
 $singleTemplate = Get-Content -Path (Join-Path $repoRoot 'layouts\_default\single.html') -Raw
 $headTemplate = Get-Content -Path (Join-Path $repoRoot 'layouts\partials\head.html') -Raw
+$commentsPartial = Get-Content -Path (Join-Path $repoRoot 'layouts\partials\comments-giscus.html') -Raw
 $hugoToml = Get-Content -Path (Join-Path $repoRoot 'hugo.toml') -Raw
 $tagDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'tags') -Directory -ErrorAction SilentlyContinue |
   Where-Object { $_.Name -notin @('page') } |
@@ -184,7 +185,7 @@ $checks = @(
   @{ Name = 'article page uses balanced reading-first two-column shell'; Ok = $cssText -match '\.article-page-shell\{[^}]*grid-template-columns:\s*minmax\(0,\s*52rem\)\s*minmax\(10\.5rem,\s*12rem\)[^}]*gap:\s*2rem' },
   @{ Name = 'article page no longer ships a separate no-aside desktop shell'; Ok = $cssText -notmatch '\.article-page-shell\.no-aside\{' -and $singleTemplate -notmatch 'article-page-shell\{\{ if not \(or \$hasToc \$hasSeries\) \}\} no-aside' },
   @{ Name = 'article body and summary keep a restrained readable measure'; Ok = $cssText -match '\.article-page \.article-summary,\s*\.article-page \.article-body\{[^}]*max-width:\s*52rem' },
-  @{ Name = 'article pages include a github login comment section'; Ok = ($postHtml -eq '' -or ($postHtml -match 'Comments' -and $postHtml -match '登录 GitHub 后即可评论' -and $postHtml -match 'giscus\.app/client\.js' -and $postHtml -match 'data-repo=koialkaid/blog' -and $postHtml -match 'data-repo-id=R_kgDOR-EI_A' -and $postHtml -match 'data-category=Announcements' -and $postHtml -match 'data-category-id=DIC_kwDOR-EI_M4C7CtO')) -and ($noteHtml -eq '' -or ($noteHtml -match 'giscus\.app/client\.js' -and $noteHtml -match '登录 GitHub 后即可评论')) },
+  @{ Name = 'article pages render giscus directly without extra intro block'; Ok = ($postHtml -eq '' -or ($postHtml -match 'giscus\.app/client\.js' -and $postHtml -match 'data-repo=koialkaid/blog' -and $postHtml -match 'data-repo-id=R_kgDOR-EI_A' -and $postHtml -match 'data-category=Announcements' -and $postHtml -match 'data-category-id=DIC_kwDOR-EI_M4C7CtO')) -and ($noteHtml -eq '' -or ($noteHtml -match 'giscus\.app/client\.js')) -and $commentsPartial -notmatch 'section-kicker">Comments<' -and $commentsPartial -notmatch '登录 GitHub 后即可评论' },
   @{ Name = 'comment section keeps article width and full widget width'; Ok = $cssText -match '\.article-comments\{[^}]*max-width:\s*52rem' -and $cssText -match '\.article-comments-frame \.giscus,\s*\.article-comments-frame \.giscus-frame\{[^}]*width:\s*100%' },
   @{ Name = 'head theme script syncs giscus theme with site theme'; Ok = $headTemplate -match 'window\.__syncGiscusTheme' },
   @{ Name = 'article aside stays compact and close to content'; Ok = $cssText -match '\.article-aside\{[^}]*padding-left:\s*0(?:;|\s|\})' -and $cssText -match '\.article-toc-card,\s*\.series-reading-card\{[^}]*max-width:\s*12rem' },
