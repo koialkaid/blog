@@ -693,7 +693,7 @@ h3 {
 
 .article-page-shell {
   display: grid;
-  grid-template-columns: minmax(0, 52rem) minmax(10.5rem, 12rem);
+  grid-template-columns: minmax(0, 52rem) minmax(16rem, 16rem);
   gap: 2rem;
   align-items: start;
 }
@@ -751,7 +751,7 @@ h3 {
 
 .article-toc-card,
 .series-reading-card {
-  max-width: 12rem;
+  max-width: 16rem;
   padding: 0.72rem 0.8rem 0.8rem;
   border: 1px solid var(--line);
   background: var(--panel-bg);
