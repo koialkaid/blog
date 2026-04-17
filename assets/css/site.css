@@ -745,6 +745,8 @@ h3 {
   overflow: auto;
   scrollbar-width: thin;
   padding-left: 0;
+  padding-right: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .article-toc-card,
