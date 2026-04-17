@@ -760,6 +760,7 @@ h3 {
   max-height: 22rem;
   overflow: auto;
   scrollbar-width: thin;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.05);
 }
 
 .article-page .article-summary,
