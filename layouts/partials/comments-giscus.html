@@ -1,0 +1,59 @@
+{{ $giscus := .Site.Params.giscus }}
+{{ if and $giscus.enabled (or (eq .Section "posts") (eq .Section "notes")) }}
+  <section class="article-comments" aria-label="评论区">
+    <div class="article-comments-meta">
+      <p class="section-kicker">Comments</p>
+      <p class="article-comments-note">登录 GitHub 后即可评论。</p>
+    </div>
+    <div class="article-comments-frame">
+      <script
+        src="https://giscus.app/client.js"
+        data-repo="{{ $giscus.repo }}"
+        data-repo-id="{{ $giscus.repoId }}"
+        data-category="{{ $giscus.category }}"
+        data-category-id="{{ $giscus.categoryId }}"
+        data-mapping="{{ $giscus.mapping }}"
+        data-strict="{{ $giscus.strict }}"
+        data-reactions-enabled="{{ $giscus.reactionsEnabled }}"
+        data-emit-metadata="{{ $giscus.emitMetadata }}"
+        data-input-position="{{ $giscus.inputPosition }}"
+        data-theme="{{ $giscus.lightTheme }}"
+        data-lang="{{ $giscus.lang }}"
+        data-loading="{{ $giscus.loading }}"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+    <noscript>登录 GitHub 后可用评论功能；若脚本被禁用，评论区不会显示。</noscript>
+    <script>
+      (function () {
+        var lightTheme = '{{ $giscus.lightTheme }}';
+        var darkTheme = '{{ $giscus.darkTheme }}';
+
+        function syncGiscusTheme(theme) {
+          var frame = document.querySelector('iframe.giscus-frame');
+          if (!frame || !frame.contentWindow) {
+            return;
+          }
+
+          frame.contentWindow.postMessage(
+            {
+              giscus: {
+                setConfig: {
+                  theme: theme === 'dark' ? darkTheme : lightTheme
+                }
+              }
+            },
+            'https://giscus.app'
+          );
+        }
+
+        window.__syncGiscusTheme = syncGiscusTheme;
+
+        document.addEventListener('DOMContentLoaded', function () {
+          syncGiscusTheme(document.documentElement.dataset.theme || 'light');
+        });
+      })();
+    </script>
+  </section>
+{{ end }}

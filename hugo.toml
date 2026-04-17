@@ -32,6 +32,22 @@ author = 'LY'
 homeIntro = '公开写作、日记与日常思考'
 homeBlurb = '这是一份轻量、长期可维护的个人博客。内容默认全部公开，重点放在持续写作，而不是堆叠功能。'
 
+  [params.giscus]
+  enabled = true
+  repo = 'koialkaid/blog'
+  repoId = 'R_kgDOR-EI_A'
+  category = 'Announcements'
+  categoryId = 'DIC_kwDOR-EI_M4C7CtO'
+  mapping = 'pathname'
+  strict = '0'
+  reactionsEnabled = '1'
+  emitMetadata = '0'
+  inputPosition = 'bottom'
+  lang = 'zh-CN'
+  loading = 'lazy'
+  lightTheme = 'light'
+  darkTheme = 'dark'
+
 [[menu.main]]
 name = '首页'
 pageRef = '/'

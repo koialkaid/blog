@@ -64,6 +64,7 @@
         <div class="article-body">
           {{ .Content }}
         </div>
+        {{ partial "comments-giscus.html" . }}
       </div>
       <aside class="article-aside{{ if not $hasAsideContent }} is-empty{{ end }}"{{ if $hasAsideContent }} aria-label="文章辅助信息"{{ else }} aria-hidden="true"{{ end }}>
         {{ if $hasToc }}

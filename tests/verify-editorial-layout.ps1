@@ -61,9 +61,17 @@ $agentArticleHtml = if (Test-Path (Join-Path $outputDir 'posts\agent-learning-01
 } else {
   ''
 }
+$noteDetailFile = $noteDetailFiles | Select-Object -First 1
+$noteHtml = if ($noteDetailFile -and (Test-Path (Join-Path $noteDetailFile.FullName 'index.html'))) {
+  Get-Content -Path (Join-Path $noteDetailFile.FullName 'index.html') -Raw
+} else {
+  ''
+}
 $cssFile = Get-ChildItem -Path (Join-Path $outputDir 'css') -Filter 'site*.css' | Select-Object -First 1
 $cssText = if ($cssFile) { Get-Content -Path $cssFile.FullName -Raw } else { '' }
 $singleTemplate = Get-Content -Path (Join-Path $repoRoot 'layouts\_default\single.html') -Raw
+$headTemplate = Get-Content -Path (Join-Path $repoRoot 'layouts\partials\head.html') -Raw
+$hugoToml = Get-Content -Path (Join-Path $repoRoot 'hugo.toml') -Raw
 $tagDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'tags') -Directory -ErrorAction SilentlyContinue |
   Where-Object { $_.Name -notin @('page') } |
   Select-Object -First 1
@@ -97,6 +105,9 @@ if ($postHtml) {
 }
 if ($tagDetailHtml) {
   $themePages += $tagDetailHtml
+}
+if ($noteHtml) {
+  $themePages += $noteHtml
 }
 
 $oldNotesLabel = ([char]0x77ED).ToString() + ([char]0x8BB0).ToString()
@@ -169,9 +180,13 @@ $checks = @(
   @{ Name = 'light theme uses a unified solid site background'; Ok = $cssText -match '--bg:\s*#fcfcfc' -and $cssText -match 'body\{[^}]*background:\s*var\(--bg\)' },
   @{ Name = 'global shell uses expanded site and content widths'; Ok = $cssText -match '--site-width:\s*1440px' -and $cssText -match '--content-width:\s*1120px' },
   @{ Name = 'dark theme softens bright text to gray'; Ok = $cssText -match 'html\[data-theme=dark\]\{[^}]*--ink:\s*#d2d2d2[^}]*--accent:\s*#d2d2d2[^}]*--accent-deep:\s*#d2d2d2' },
+  @{ Name = 'giscus config is defined in hugo params'; Ok = $hugoToml -match '\[params\.giscus\]' -and $hugoToml -match "repo = 'koialkaid/blog'" -and $hugoToml -match "repoId = 'R_kgDOR-EI_A'" -and $hugoToml -match "categoryId = 'DIC_kwDOR-EI_M4C7CtO'" },
   @{ Name = 'article page uses balanced reading-first two-column shell'; Ok = $cssText -match '\.article-page-shell\{[^}]*grid-template-columns:\s*minmax\(0,\s*52rem\)\s*minmax\(10\.5rem,\s*12rem\)[^}]*gap:\s*2rem' },
   @{ Name = 'article page no longer ships a separate no-aside desktop shell'; Ok = $cssText -notmatch '\.article-page-shell\.no-aside\{' -and $singleTemplate -notmatch 'article-page-shell\{\{ if not \(or \$hasToc \$hasSeries\) \}\} no-aside' },
   @{ Name = 'article body and summary keep a restrained readable measure'; Ok = $cssText -match '\.article-page \.article-summary,\s*\.article-page \.article-body\{[^}]*max-width:\s*52rem' },
+  @{ Name = 'article pages include a github login comment section'; Ok = ($postHtml -eq '' -or ($postHtml -match 'Comments' -and $postHtml -match '登录 GitHub 后即可评论' -and $postHtml -match 'giscus\.app/client\.js' -and $postHtml -match 'data-repo=koialkaid/blog' -and $postHtml -match 'data-repo-id=R_kgDOR-EI_A' -and $postHtml -match 'data-category=Announcements' -and $postHtml -match 'data-category-id=DIC_kwDOR-EI_M4C7CtO')) -and ($noteHtml -eq '' -or ($noteHtml -match 'giscus\.app/client\.js' -and $noteHtml -match '登录 GitHub 后即可评论')) },
+  @{ Name = 'comment section keeps article width and full widget width'; Ok = $cssText -match '\.article-comments\{[^}]*max-width:\s*52rem' -and $cssText -match '\.article-comments-frame \.giscus,\s*\.article-comments-frame \.giscus-frame\{[^}]*width:\s*100%' },
+  @{ Name = 'head theme script syncs giscus theme with site theme'; Ok = $headTemplate -match 'window\.__syncGiscusTheme' },
   @{ Name = 'article aside stays compact and close to content'; Ok = $cssText -match '\.article-aside\{[^}]*padding-left:\s*0(?:;|\s|\})' -and $cssText -match '\.article-toc-card,\s*\.series-reading-card\{[^}]*max-width:\s*12rem' },
   @{ Name = 'toc card keeps a fixed height with internal scrolling'; Ok = $cssText -match '\.article-toc-card\{[^}]*max-height:\s*22rem[^}]*overflow:\s*auto[^}]*scrollbar-width:\s*thin' },
   @{ Name = 'article main keeps existing card visual style'; Ok = $cssText -match '\.article-main\{[^}]*border-top:\s*2px solid var\(--accent-deep\)' -and $cssText -match '\.sidebar-brand-card,\.sidebar-nav-panel,\.sidebar-profile-card,\.sidebar-context-panel,\.home-intro,\.page-header,\.reading-card,\.article-main,\.taxonomy-card\{[^}]*background:\s*var\(--panel-bg\)[^}]*box-shadow:\s*var\(--shadow-card\)' },
