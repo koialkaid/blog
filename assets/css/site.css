@@ -756,6 +756,12 @@ h3 {
   box-shadow: var(--shadow-card);
 }
 
+.article-toc-card {
+  max-height: 22rem;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
 .article-page .article-summary,
 .article-page .article-body {
   max-width: 52rem;
