@@ -784,19 +784,6 @@ h3 {
   width: 100%;
 }
 
-.article-comments-jump {
-  width: fit-content;
-  padding-bottom: 0.12rem;
-  border-bottom: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 0.86rem;
-}
-
-.article-comments-jump:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
 .series-reading-card h2 {
   margin-bottom: 0.65rem;
   font-size: 0.98rem;
