@@ -3,22 +3,19 @@ title = '从一则招聘出发：Agent 工程师学习路线（详细版）'
 slug = 'agent-job-learning-roadmap'
 date = '2026-04-17T20:30:00'
 description = '基于一则真实 AI Agent 工程师招聘需求，拆出能力优先级，并整理成一条可执行的阶段式学习路线。'
-series = ['agent-招聘向学习']
-series_order = 2
-tags = ['Agent', '招聘', '学习路线']
+tags = [
+	'Agent',
+	'招聘',
+	'学习路线',
+]
+series = [
+	'agent-招聘向学习',
+]
+series_order = 2.0
 +++
-
-这篇文章不是泛泛而谈“怎么学 AI”，而是基于上一篇里的那则招聘需求，倒推出一条更接近岗位要求的学习路线。
-
 如果把那份 JD 压缩成一句话，它想找的并不是“会调模型 API 的人”，而是能把大模型能力做成**可执行、可维护、可上线的 Agent 系统**的人。
 
-所以这条路线的重点不是：
-
-- 背多少 Prompt 技巧
-- 学多少模型名词
-- 跑多少 Demo
-
-而是要逐步补齐这几类能力：
+要逐步补齐这几类能力：
 
 1. **LLM / Agent 基础机制理解**
 2. **Tool Use / Function Calling / 工作流编排**
