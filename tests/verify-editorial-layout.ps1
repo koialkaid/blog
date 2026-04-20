@@ -62,6 +62,12 @@ $seriesHtml = if (Test-Path (Join-Path $outputDir 'series\index.html')) {
 } else {
   ''
 }
+$agentLearningSeriesDetailDir = Join-Path $outputDir 'series\agent-%e5%ad%a6%e4%b9%a0'
+$agentLearningSeriesHtml = if (Test-Path (Join-Path $agentLearningSeriesDetailDir 'index.html')) {
+  Get-Content -Path (Join-Path $agentLearningSeriesDetailDir 'index.html') -Raw
+} else {
+  ''
+}
 $seriesDetailFile = Get-ChildItem -Path (Join-Path $outputDir 'series') -Directory -ErrorAction SilentlyContinue |
   Where-Object { $_.Name -notin @('page') } |
   Select-Object -First 1
@@ -222,9 +228,9 @@ $checks = @(
   @{ Name = 'tags page uses compact grid layout'; Ok = $tagsHtml -match 'taxonomy-tag-grid' -and $tagsHtml -match 'taxonomy-tag-card' },
   @{ Name = 'tags page uses single-layer tag cards'; Ok = $cssText -match '\.taxonomy-tag-card\{[^}]*border:0[^}]*background:(?:transparent|0 0)[^}]*box-shadow:none' -and $cssText -match '\.taxonomy-tag-card \.tag-pill\{[^}]*box-shadow:var\(--shadow-card\)|\.taxonomy-tag-card\.tag-pill\{[^}]*box-shadow:var\(--shadow-card\)' },
   @{ Name = 'series index shows description for agent learning when present'; Ok = $seriesHtml -notmatch 'Agent 学习' -or ($seriesHtml -match 'taxonomy-series-card' -and $seriesHtml -match '基本概念、工具调用与边界设定') },
-  @{ Name = 'series detail shows description for agent learning when present'; Ok = $agentSeriesHtml -notmatch 'Agent 学习' -or $agentSeriesHtml -match '基本概念、工具调用与边界设定' },
+  @{ Name = 'series detail shows description for agent learning when present'; Ok = $agentLearningSeriesHtml -eq '' -or $agentLearningSeriesHtml -match '基本概念、工具调用与边界设定' },
   @{ Name = 'todo page exists and renders in navigation'; Ok = $todoHtml -match '<h1>待办</h1>' -and $homeHtml -match '<span>待办</span>' -and $homeHtml -match 'href=/blog/todo/' },
-  @{ Name = 'agent learning series page sorts entries by series order when present'; Ok = $agentSeriesHtml -notmatch 'Agent 学习' -or $agentSeriesOrderOk },
+  @{ Name = 'agent learning series page sorts entries by series order when present'; Ok = $agentLearningSeriesHtml -eq '' -or $agentSeriesOrderOk },
   @{ Name = 'series article shows series metadata when present'; Ok = $agentArticleHtml -eq '' -or ($agentArticleHtml -match '系列：Agent 学习' -and $agentArticleHtml -match '第 1 篇') },
   @{ Name = 'series article shows full series list card in aside when present'; Ok = $agentArticleHtml -eq '' -or ($agentArticleHtml -match 'series-reading-card' -and $agentArticleHtml -match 'Agent 学习 01' -and $agentArticleHtml -match 'Agent 学习 02' -and $agentArticleHtml -match 'Agent 学习 03' -and $agentArticleHtml -match '查看系列') },
   @{ Name = 'series reading is removed from article main'; Ok = $agentArticleHtml -notmatch '<div class=article-main>[\s\S]*<section class=series-reading' },
