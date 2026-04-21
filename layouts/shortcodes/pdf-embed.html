@@ -1,0 +1,13 @@
+{{ $src := .Get "src" }}
+{{ $title := .Get "title" | default "PDF 预览" }}
+{{ $height := .Get "height" | default "54rem" }}
+{{ $linkText := .Get "linktext" | default (printf "↓ 下载 PDF：%s" $title) }}
+{{ if not $src }}
+  {{ errorf "pdf-embed shortcode requires src: %s" .Position }}
+{{ end }}
+<div class="article-pdf-embed">
+  <p class="article-pdf-link"><a href="{{ $src | relURL }}">{{ $linkText }}</a></p>
+  <div class="article-pdf-frame" style="--pdf-embed-height: {{ $height }};">
+    <iframe src="{{ $src | relURL }}" title="{{ $title }}" loading="lazy"></iframe>
+  </div>
+</div>
