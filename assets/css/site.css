@@ -362,12 +362,14 @@ blockquote {
 
 .profile-links {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.35rem;
   padding-top: 0.72rem;
   border-top: 1px solid var(--line);
 }
 
 .profile-links-label {
+  grid-column: 1 / -1;
   color: var(--muted);
   font-size: 0.68rem;
   letter-spacing: 0.16em;
@@ -381,6 +383,10 @@ blockquote {
   font-size: 0.8rem;
   padding-bottom: 0.1rem;
   border-bottom: 1px solid var(--line);
+}
+
+.profile-link:nth-of-type(2) {
+  justify-self: end;
 }
 
 .profile-link:hover {
