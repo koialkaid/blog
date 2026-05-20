@@ -82,8 +82,3 @@ weight = 45
 name = 'About'
 pageRef = '/about'
 weight = 50
-
-[[menu.main]]
-name = 'RSS'
-url = '/index.xml'
-weight = 60

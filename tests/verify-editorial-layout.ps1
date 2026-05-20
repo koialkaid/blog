@@ -162,7 +162,7 @@ $expectedHomePostCount = [Math]::Min(2, $postDetailFiles.Count)
 $expectedHomeNoteCount = [Math]::Min(2, $noteDetailFiles.Count)
 $agentSeriesOrderOk = $agentSeriesHtml -match 'Agent 学习 01[\s\S]*Agent 学习 02[\s\S]*Agent 学习 03'
 $sidebarOrderOk = $homeHtml -match 'sidebar-brand-card[\s\S]*sidebar-profile-card[\s\S]*sidebar-nav-panel'
-$navOrderOk = $homeHtml -match '<span>首页</span>[\s\S]*<span>文章</span>[\s\S]*<span>日记</span>[\s\S]*<span>系列</span>[\s\S]*<span>待办</span>[\s\S]*<span>标签</span>[\s\S]*<span>About</span>[\s\S]*<span>RSS</span>'
+$navOrderOk = $homeHtml -match '<span>首页</span>[\s\S]*<span>文章</span>[\s\S]*<span>日记</span>[\s\S]*<span>系列</span>[\s\S]*<span>待办</span>[\s\S]*<span>标签</span>[\s\S]*<span>About</span>'
 
 $checks = @(
   @{ Name = 'home uses card-based article layout'; Ok = $homeHtml -match 'class=reading-card' },
@@ -173,7 +173,7 @@ $checks = @(
   @{ Name = 'profile card is placed between brand and nav'; Ok = $sidebarOrderOk },
   @{ Name = 'sidebar nav orders series before tags'; Ok = $navOrderOk },
   @{ Name = 'sidebar cards use sidebar shadow matching content cards'; Ok = $cssText -match '--shadow-card:6px 6px 0' -and $cssText -match '--sidebar-shadow:6px 6px 0' -and $cssText -match '\.sidebar-brand-card,\.sidebar-nav-panel,\.sidebar-profile-card\{[^}]*box-shadow:var\(--sidebar-shadow\)' },
-  @{ Name = 'sidebar renders personal profile card'; Ok = ($themePages | Where-Object { $_ -match 'sidebar-profile-card' -and $_ -match 'profile-main' -and $_ -match 'profile-links' -and $_ -match '>koi<' -and $_ -match 'https://linux.do/u/koi_alkaid/summary' -and $_ -match 'profile/avatar.jpg' }).Count -eq $themePages.Count },
+  @{ Name = 'sidebar renders personal profile card'; Ok = ($themePages | Where-Object { $_ -match 'sidebar-profile-card' -and $_ -match 'profile-main' -and $_ -match 'profile-links' -and $_ -match '>koi<' -and $_ -match 'https://linux.do/u/koi_alkaid/summary' -and $_ -match '>RSS订阅<' -and $_ -match 'profile/avatar.jpg' }).Count -eq $themePages.Count },
   @{ Name = 'profile card exposes direct CMS entry button'; Ok = ($themePages | Where-Object { $_ -match 'profile-admin-link' -and $_ -match 'href=https://app\.pagescms\.org/koialkaid/blog/main' -and $_ -match 'aria-label=进入写作后台' }).Count -eq $themePages.Count },
   @{ Name = 'home no longer renders intro card'; Ok = $homeHtml -notmatch 'Writing Index' -and $homeHtml -notmatch 'class=home-intro' },
   @{ Name = 'home no longer renders writing note panel'; Ok = $homeHtml -notmatch 'Writing Note' -and $homeHtml -notmatch 'sidebar-context-panel' },
